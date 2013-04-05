@@ -110,7 +110,6 @@ accepted that violate this.
 
 For version 1 of SimplePVR, there are no more features planned. Instead, there'll be a little clean-up:
 
-* Update AngularJS (Capybara doesn't like 1.0.5... need to look into it...)
 * Various code clean-ups (no grand plan).
 * Various GUI clean-ups (no grand plan).
 * Various bug fixes (no known issues at this point).

@@ -59,8 +59,8 @@ When /I search for programmes with title "(.*)"/ do |query|
 end
 
 When /I delete the first schedule/ do
-  page.should have_link('Delete')
-  first(:link, 'Delete').click
+  page.should have_button('Delete')
+  first(:button, 'Delete').click
 end
 
 When /I choose not to record the first scheduled show/ do
