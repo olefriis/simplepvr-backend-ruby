@@ -1,0 +1,8 @@
+.DS_Store
+/channels.txt
+channel_mappings.yaml
+*.sqlite
+tvgrabbed.xmltv
+*.gem
+.bundle
+recordings
