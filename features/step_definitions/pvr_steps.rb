@@ -1,5 +1,25 @@
 require 'timeout'
 
+# Taken from https://gist.github.com/jnicklas/4129937
+module WaitSteps
+  extend RSpec::Matchers::DSL
+ 
+  matcher :become_true do
+    match do |block|
+      begin
+        Timeout.timeout(Capybara.default_wait_time) do
+          sleep(0.1) until value = block.call
+          value
+        end
+      rescue TimeoutError
+        false
+      end
+    end
+  end
+end
+
+include WaitSteps
+
 Given /the following programmes\:/ do |programme_table|
   programme_table.hashes.each do |programme|
     channel = find_or_create_channel_with_name(programme['channel'] || 'Channel 1')
@@ -101,7 +121,7 @@ Then /I should not see the button "(.*)"/ do |text|
 end
 
 Then /there should be (\d*) upcoming recordings?/ do |upcoming_recordings|
-  page.find('#upcoming_recordings').all('h2').length.should == upcoming_recordings.to_i
+  expect { page.find('#upcoming_recordings').all('h2').length == upcoming_recordings.to_i }.to become_true
 end
 
 Then /^there should be a conflict$/ do
