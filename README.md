@@ -150,18 +150,28 @@ to implement...
 
 Development
 ===========
-When you have checked out the sources, there's no apparent way to run pvr_server and pvr_xmltv. (If you know
-better than I, please let me know!) Therefore, the commands development_server and development_xmltv are
-included. Use them as you would pvr_server and pvr_xmltv (see above).
+You need the following installed:
+
+* Ruby 1.9.3 or newer.
+* [Bundler](http://gembundler.com/).
+* [Karma](http://karma-runner.github.com/0.8/index.html).
+* [PhantomJS](http://phantomjs.org/) - and the phantomjs executable must be on your path.
+
+When you have cloned the repository, run
+
+        bundle install
+
+When writing a gem, there's no apparent way to run the commands in the bin directory, in our case pvr_server
+and pvr_xmltv. (If you know better than I, please let me know!) Therefore, the commands development_server and
+development_xmltv are included. Use them as you would pvr_server and pvr_xmltv (see above).
 
 Run all automatic tests like this:
 
         rake test
 
-This runs the Ruby specs and features along with the JavaScript unit tests.
+This runs the Ruby specs, features, and JavaScript unit tests.
 
-For the JavaScript tests to run, first install [Karma](http://karma-runner.github.com/0.8/index.html).
-If you want to keep Karma running and let it execute whenever a file changes, just run this:
+If you want to keep Karma running and let it execute whenever a file changes, run this:
 
         karma start test/karma.conf.js
 
