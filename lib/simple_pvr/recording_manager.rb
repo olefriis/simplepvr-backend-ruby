@@ -16,7 +16,7 @@ module SimplePvr
     
     def episodes_of(show_name)
       episodes = Dir.new(directory_for_show(show_name)).entries - ['.', '..']
-      episodes.map do |episode|
+      episodes.sort.map do |episode|
         metadata_for(show_name, episode)
       end
     end
