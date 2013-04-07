@@ -6,14 +6,49 @@ describe SimplePvr::RecordingPlanner do
     SimplePvr::Model::DatabaseInitializer.clear
     @dr_1 = SimplePvr::Model::Channel.create(name: 'DR 1')
     @dr_k = SimplePvr::Model::Channel.create(name: 'DR K')
-    @start_time_1, @start_time_2 = Time.local(2012, 7, 10, 20, 50), Time.local(2012, 7, 17, 20, 50)
-    @old_start_time = Time.local(2012, 8, 10, 20, 50)
+    @next_year = Time.now.year + 1
+    @start_time_1, @start_time_2 = Time.local(@next_year, 7, 10, 20, 50), Time.local(@next_year, 7, 17, 20, 50)
+    @old_start_time = Time.local(@next_year, 8, 10, 20, 50)
     @programme_duration = 60.minutes.to_i
     
     @scheduler = double('Scheduler')
     SimplePvr::PvrInitializer.stub(scheduler: @scheduler)
 
-    Time.stub!(now: Time.local(2012, 7, 9, 20, 50))
+    Time.stub!(now: Time.local(@next_year, 7, 9, 20, 50))
+  end
+
+  it 'adjusts end time for single programme schedules' do
+    SimplePvr::Model::Programme.create(title: 'Borgias', channel: @dr_k, start_time: @start_time_1, duration: @programme_duration)
+    SimplePvr::Model::Schedule.create(type: :specification, title: 'Borgias', channel: @dr_k, start_time: @start_time_1)
+    @scheduler.should_receive(:recordings=)
+
+    SimplePvr::RecordingPlanner.reload
+
+    schedule = SimplePvr::Model::Schedule.all[0]
+    schedule.end_time.should == @start_time_1 + @programme_duration.seconds + 5.minutes
+  end
+
+  it 'adjusts end time for exceptions' do
+    SimplePvr::Model::Programme.create(title: 'Borgias', channel: @dr_k, start_time: @start_time_1, duration: @programme_duration)
+    SimplePvr::Model::Schedule.create(type: :specification, title: 'Borgias')
+    SimplePvr::Model::Schedule.create(type: :exception, title: 'Borgias', channel: @dr_k, start_time: @start_time_1)
+    @scheduler.should_receive(:recordings=)
+
+    SimplePvr::RecordingPlanner.reload
+
+    schedule = SimplePvr::Model::Schedule.all(type: :exception)[0]
+    schedule.end_time.should == @start_time_1 + @programme_duration.seconds + 5.minutes
+  end
+
+  it 'leaves end time alone for schedules' do
+    SimplePvr::Model::Programme.create(title: 'Borgias', channel: @dr_k, start_time: @start_time_1, duration: @programme_duration)
+    SimplePvr::Model::Schedule.create(type: :specification, title: 'Borgias', channel: @dr_k)
+    @scheduler.should_receive(:recordings=)
+
+    SimplePvr::RecordingPlanner.reload
+
+    schedule = SimplePvr::Model::Schedule.first
+    schedule.end_time.should be_nil
   end
 
   it 'cleans up outdated schedules' do
@@ -42,8 +77,8 @@ describe SimplePvr::RecordingPlanner do
     SimplePvr::Model::Programme.create(title: 'Irrelevant programme', channel: @dr_k, start_time: @start_time_2, duration: @programme_duration)
     
     @scheduler.should_receive(:recordings=).with([
-      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(2012, 7, 10, 20, 48), 67.minutes, @programme_1),
-      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(2012, 7, 17, 20, 48), 67.minutes, @programme_2)
+      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(@next_year, 7, 10, 20, 48), 67.minutes, @programme_1),
+      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(@next_year, 7, 17, 20, 48), 67.minutes, @programme_2)
     ])
 
     SimplePvr::RecordingPlanner.reload
@@ -54,7 +89,7 @@ describe SimplePvr::RecordingPlanner do
     @programme_1 = SimplePvr::Model::Programme.create(title: 'Borgias', channel: @dr_k, start_time: @start_time_1, duration: @programme_duration)
     
     @scheduler.should_receive(:recordings=).with([
-      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(2012, 7, 10, 20, 46), 74.minutes, @programme_1),
+      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(@next_year, 7, 10, 20, 46), 74.minutes, @programme_1),
     ])
 
     SimplePvr::RecordingPlanner.reload
@@ -79,8 +114,8 @@ describe SimplePvr::RecordingPlanner do
     SimplePvr::Model::Programme.create(title: 'Irrelevant programme', channel: @dr_k, start_time: @start_time_2, duration: @programme_duration)
 
     @scheduler.should_receive(:recordings=).with([
-      SimplePvr::Model::Recording.new(@dr_1, 'Borgias', Time.local(2012, 7, 10, 20, 48), 67.minutes, @programme_1),
-      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(2012, 7, 17, 20, 48), 67.minutes, @programme_2)
+      SimplePvr::Model::Recording.new(@dr_1, 'Borgias', Time.local(@next_year, 7, 10, 20, 48), 67.minutes, @programme_1),
+      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(@next_year, 7, 17, 20, 48), 67.minutes, @programme_2)
     ])
 
     SimplePvr::RecordingPlanner.reload
@@ -178,7 +213,7 @@ describe SimplePvr::RecordingPlanner do
     @programme_to_be_recorded = SimplePvr::Model::Programme.create(title: 'Borgias', channel: @dr_k, start_time: @start_time_2, duration: @programme_duration)
 
     @scheduler.should_receive(:recordings=).with([
-      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(2012, 7, 17, 20, 48), 67.minutes, @programme_to_be_recorded)
+      SimplePvr::Model::Recording.new(@dr_k, 'Borgias', Time.local(@next_year, 7, 17, 20, 48), 67.minutes, @programme_to_be_recorded)
     ])
 
     SimplePvr::RecordingPlanner.reload

@@ -1,10 +1,9 @@
 module SimplePvr
   class RecordingPlanner
     def self.reload
-      Model::Schedule.cleanup
-
       planner = self.new
       planner.read
+      SimplePvr::Model::Schedule.cleanup
     end
     
     def initialize
@@ -18,6 +17,10 @@ module SimplePvr
       
       specifications.each do |specification|
         programmes = programmes_matching(specification)
+
+        adjust_end_time_of_specification(specification, programmes)
+        adjust_end_time_of_exceptions(specification, programmes, exceptions)
+
         programmes_with_exceptions_removed = programmes.find_all {|programme| !matches_exception(programme, exceptions) }
         programmes_filtered_by_weekdays = programmes_with_exceptions_removed.find_all {|programme| on_allowed_weekday(programme, specification) }
         programmes_filtered_by_time_of_day = programmes_filtered_by_weekdays.find_all {|programme| at_allowed_time_of_day(programme, specification) }
@@ -39,8 +42,29 @@ module SimplePvr
         end
     end
 
+    def adjust_end_time_of_specification(specification, programmes)
+      if specification.start_time && programmes.length == 1
+        specification.end_time = specification.start_time + programmes[0].duration.seconds + specification.end_late_minutes.minutes
+        specification.save!
+      end
+    end
+
+    def adjust_end_time_of_exceptions(specification, programmes, exceptions)
+      programmes.find_all {|p| matches_exception(p, exceptions) }.each do |programme|
+        exceptions_to_programme = exceptions_matching_programme(programme, exceptions)
+        exceptions_to_programme.each do |exception|
+          exception.end_time = exception.start_time + programmes[0].duration.seconds + specification.end_late_minutes.minutes
+          exception.save!
+        end
+      end
+    end
+
     def matches_exception(programme, exceptions)
-      exceptions.any? do |exception|
+      exceptions_matching_programme(programme, exceptions).length > 0
+    end
+
+    def exceptions_matching_programme(programme, exceptions)
+      exceptions.find_all do |exception|
         programme.title == exception.title &&
         programme.channel == exception.channel &&
         programme.start_time == exception.start_time

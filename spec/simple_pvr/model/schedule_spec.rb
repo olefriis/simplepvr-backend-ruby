@@ -67,6 +67,8 @@ describe SimplePvr::Model::Schedule do
     Schedule.add_specification(title: 'Current Sports News', start_time: 5.minutes.ago, end_time: 10.minutes.from_now)
     Schedule.add_specification(title: 'Upcoming Sports News', start_time: 1.hour.from_now, end_time: 2.hours.from_now)
     Schedule.add_specification(title: 'Great movies')
+    Schedule.add_exception(title: 'Irrelevant Past Sports News', start_time: 2.hour.ago, end_time: 1.hour.ago)
+    Schedule.add_exception(title: 'Irrelevant Future Sports News', start_time: 1.hour.from_now, end_time: 2.hours.from_now)
 
     Schedule.cleanup
     remaining_names = Schedule.all.collect {|s| s.title }
@@ -74,5 +76,7 @@ describe SimplePvr::Model::Schedule do
     remaining_names.should include('Upcoming Sports News')
     remaining_names.should include('Great movies')
     remaining_names.should_not include('Old Sports News')
+    remaining_names.should_not include('Irrelevant Past Sports News')
+    remaining_names.should include('Irrelevant Future Sports News')
   end
 end

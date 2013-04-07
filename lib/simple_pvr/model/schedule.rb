@@ -16,6 +16,15 @@ module SimplePvr
           start_time: options[:start_time],
           end_time: options[:end_time])
       end
+
+      def self.add_exception(options)
+        Schedule.create(
+          type: :exception,
+          title: options[:title],
+          channel: options[:channel],
+          start_time: options[:start_time],
+          end_time: options[:end_time])
+      end
       
       property :id, Serial
       property :type, Enum[:specification, :exception]
