@@ -169,11 +169,17 @@ Run all automatic tests like this:
 
         rake test
 
-This runs the Ruby specs, features, and JavaScript unit tests.
+(Or just "rake" with no arguments.) This runs the Ruby specs, features, and JavaScript unit tests.
 
 If you want to keep Karma running and let it execute whenever a file changes, run this:
 
         karma start test/karma.conf.js
+
+The specs currently use Selenium to drive Firefox, but you can choose to use PhantomJS instead:
+
+        capybara_driver=poltergeist rake test:features
+
+This currently doesn't work for all specs, though. (Again, if you can fix it, please send a pull request!)
 
 To create the gem, make sure that lib/simple_pvr/version.rb is up-to-date, commit everything and run:
 

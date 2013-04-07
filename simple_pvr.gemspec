@@ -28,4 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', '~> 2.11'
   gem.add_development_dependency 'cucumber', '~> 1.2'
   gem.add_development_dependency 'capybara', '~> 2.0'
+  gem.add_development_dependency 'poltergeist', '~> 1.1'
 end

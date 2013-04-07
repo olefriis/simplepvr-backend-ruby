@@ -1,24 +1,29 @@
 require 'timeout'
 
-# Taken from https://gist.github.com/jnicklas/4129937
-module WaitSteps
-  extend RSpec::Matchers::DSL
- 
-  matcher :become_true do
-    match do |block|
-      begin
-        Timeout.timeout(Capybara.default_wait_time) do
-          sleep(0.1) until value = block.call
-          value
-        end
-      rescue TimeoutError
-        false
+RSpec::Matchers.define :become do |expected|
+  match do |block|
+    begin
+      Timeout.timeout(Capybara.default_wait_time) do
+        sleep(0.1) until expected == block.call
       end
+      true
+    rescue TimeoutError
+      false
     end
   end
-end
 
-include WaitSteps
+  failure_message_for_should do |block|
+    "expected that #{block.call} would become #{expected}"
+  end
+
+  failure_message_for_should_not do |block|
+    "expected that #{block.call} would not become #{expected}"
+  end
+
+  description do
+    "become #{expected}"
+  end
+end
 
 Given /the following programmes\:/ do |programme_table|
   programme_table.hashes.each do |programme|
@@ -121,7 +126,7 @@ Then /I should not see the button "(.*)"/ do |text|
 end
 
 Then /there should be (\d*) upcoming recordings?/ do |upcoming_recordings|
-  expect { page.find('#upcoming_recordings').all('h2').length == upcoming_recordings.to_i }.to become_true
+  expect { page.find('#upcoming_recordings').all('h2').length }.to become(upcoming_recordings.to_i)
 end
 
 Then /^there should be a conflict$/ do
