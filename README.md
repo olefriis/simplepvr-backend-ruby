@@ -1,7 +1,5 @@
 SimplePVR-Ruby-backend
 ======================
-[![Build Status](https://travis-ci.org/olefriis/simplepvr-backend-ruby.png)](https://travis-ci.org/olefriis/simplepvr-backend-ruby)
-
 A really, really simple PVR (Personal Video Recorder) system which only supports the
 [HDHomeRun network tuners](http://www.silicondust.com/). It's written in Ruby and is highly hackable. If
 you don't want to hack it, but just want a solid PVR system, no worries: It's dead-simple to use.
@@ -110,11 +108,8 @@ Future?
 This projects needs to be a nice, readable, hackable, tested system. No pull requests are
 accepted that violate this.
 
-For version 1 of SimplePVR, there are no more features planned. Instead, there'll be a little clean-up:
-
-* Various code clean-ups (no grand plan).
-* Various GUI clean-ups (no grand plan).
-* Various bug fixes (no known issues at this point).
+For version 1 of SimplePVR, there are no more features planned. I'll see if the current incarnation seems
+stable in the long run on my own setup, and if so, I'll mark it as 1.0.0.
 
 There is lots of stuff I'd like to do after that, but I have no deadline - which means that pull
 requests are the only means you have for speeding things up. This includes:
@@ -193,3 +188,5 @@ the automatic tests, right?), and execute
         rake release
 
 ...which will release the gem to rubygems.org.
+
+I'm trying to make Travis CI like SimplePVR, but it's not easy: [![Build Status](https://travis-ci.org/olefriis/simplepvr-backend-ruby.png)](https://travis-ci.org/olefriis/simplepvr-backend-ruby)
