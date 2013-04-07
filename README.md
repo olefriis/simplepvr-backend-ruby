@@ -1,6 +1,6 @@
 SimplePVR-Ruby-backend
 ======================
-[![Build Status](https://travis-ci.org/olefriis/simplepvr-ruby-backend.png)](https://travis-ci.org/olefriis/simplepvr-ruby-backend)
+[![Build Status](https://travis-ci.org/olefriis/simplepvr-backend-ruby.png)](https://travis-ci.org/olefriis/simplepvr-backend-ruby)
 
 A really, really simple PVR (Personal Video Recorder) system which only supports the
 [HDHomeRun network tuners](http://www.silicondust.com/). It's written in Ruby and is highly hackable. If
