@@ -108,10 +108,7 @@ Future?
 This projects needs to be a nice, readable, hackable, tested system. No pull requests are
 accepted that violate this.
 
-For version 1 of SimplePVR, there are no more features planned. I'll see if the current incarnation seems
-stable in the long run on my own setup, and if so, I'll mark it as 1.0.0.
-
-There is lots of stuff I'd like to do after that, but I have no deadline - which means that pull
+There is lots of stuff I'd like to do, but I have no deadline - which means that pull
 requests are the only means you have for speeding things up. This includes:
 
 * Web interface:
