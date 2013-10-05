@@ -8,10 +8,17 @@ directive('titleSearch', function() {
 		replace: true,
 		controller: SearchProgrammesCtrl,
 		link: function(scope, element, attributes, controller) {
-			element.find('input').typeahead({
-				source: scope.autocomplete,
-				updater: scope.updater
+			var inputField = element.find('input');
+			inputField.typeahead({
+				remote: '/api/programmes/title_search?query=%QUERY'
 			});
+			var updateTitle = function() {
+				scope.$apply(function() {
+					scope.title = inputField.val();
+				});
+			};
+			inputField.change(updateTitle);
+			inputField.on('typeahead:autocompleted', updateTitle);
 		}
 	};
 }).

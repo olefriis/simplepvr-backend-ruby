@@ -1,22 +1,21 @@
 <!doctype html>
 <html lang="en" ng-app="simplePvr" ng-cloak>
   <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<base href="/">
 	<link href="/app/css/bootstrap.min.css" rel="stylesheet">
-	  <link href="/app/css/simplepvr.css" rel="stylesheet">
-	  <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-    </style>
-	<link href="/app/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="/app/css/typeahead.js-bootstrap.css" rel="stylesheet">
+  <link href="/app/css/simplepvr.css" rel="stylesheet">
+
+  <style>
+    body { padding-top: 70px; }
+  </style>
 
 	<script src="app/js/jquery/jquery.min.js"></script>
   <script src="app/js/angular/angular.min.js"></script>
   <script src="app/js/angular/angular-resource.min.js"></script>
-	<script src="app/js/bootstrap/bootstrap.min.js"></script>
+  <script src="app/js/bootstrap/bootstrap.min.js"></script>
+	<script src="app/js/typeahead/typeahead.min.js"></script>
 
 	<script src="app/js/controllers.js"></script>
 	<script src="app/js/services.js"></script>
@@ -25,27 +24,29 @@
   </head>
 
   <body>
-	<div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="about">SimplePVR</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <navbar-item route="/schedules">Schedules</navbar-item>
-              <navbar-item route="/channels">Channels</navbar-item>
-              <navbar-item route="/shows">Recordings</navbar-item>
-              <navbar-item route="/status">Status</navbar-item>
-            </ul>
-            <title-search></title-search>
-          </div>
-        </div>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="about">SimplePVR</a>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <navbar-item route="/schedules">Schedules</navbar-item>
+          <navbar-item route="/channels">Channels</navbar-item>
+          <navbar-item route="/shows">Recordings</navbar-item>
+          <navbar-item route="/status">Status</navbar-item>
+        </ul>
+        <title-search></title-search>
       </div>
     </div>
+  </nav>
 
 	<div class="container" id="contents" ng-view>
 	</div>

@@ -1,10 +1,10 @@
 <div class="row">
-	<div class="span12">
+	<div class="col-md-12">
 		<h1>Results for {{query}}</h1>
 	</div>
 </div>
 <div class="row" ng-repeat="programmeChunk in result | chunk:2">
-	<div class="span6" ng-repeat="programme in programmeChunk">
+	<div class="col-md-12" ng-repeat="programme in programmeChunk">
 		<h2>{{programme.title}}</h2>
 		<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
 		<p>{{programme.subtitle}}</p>

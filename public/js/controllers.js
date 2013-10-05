@@ -134,10 +134,6 @@ function ShowCtrl($scope, $routeParams, $http, Show, Recording) {
 }
 
 function SearchProgrammesCtrl($scope, $http, $location) {
-	$scope.autocomplete = function(query, process) {
-		$http.get('/api/programmes/title_search', {params: {query: query}}).success(process);
-	}
-
 	$scope.updater = function(item) {
 		$scope.$apply(function() {
 			$scope.title = item;

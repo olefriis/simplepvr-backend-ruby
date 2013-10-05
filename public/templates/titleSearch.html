@@ -1,4 +1,6 @@
-<form class="navbar-form pull-right" ng-submit="search()">
-  <input class="span2" name="programme-search-query" type="text" ng-model="title" placeholder="Search programmes...">
-  <button type="submit" class="btn">Search</button>
+<form class="navbar-form navbar-right" role="search" ng-submit="search()">
+  <div class="form-group">
+  	<input class="form-control" name="programme-search-query" type="text" ng-model="title" placeholder="Search programmes...">
+  </div>
+  <button type="submit" class="btn btn-default">Search</button>
 </form>
