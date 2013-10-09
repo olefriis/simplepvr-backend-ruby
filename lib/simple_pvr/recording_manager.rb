@@ -1,5 +1,5 @@
 module SimplePvr
-  RecordingMetadata = Struct.new(:has_thumbnail, :has_webm, :show_name, :episode, :channel, :subtitle, :description, :start_time, :duration)
+  RecordingMetadata = Struct.new(:id, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :start_time, :duration)
   
   class RecordingManager
     def initialize(recordings_directory=nil)
@@ -14,28 +14,28 @@ module SimplePvr
       FileUtils.rm_rf(directory_for_show(show_name))
     end
     
-    def episodes_of(show_name)
-      episodes = Dir.new(directory_for_show(show_name)).entries - ['.', '..']
-      episodes.sort.map do |episode|
-        metadata_for(show_name, episode)
+    def recordings_of(show_name)
+      recordings = Dir.new(directory_for_show(show_name)).entries - ['.', '..']
+      recordings.sort.map do |recording_id|
+        metadata_for(show_name, recording_id)
       end
     end
     
-    def metadata_for(show_name, episode)
-      metadata_file_name = directory_for_show_and_episode(show_name, episode) + '/metadata.yml'
+    def metadata_for(show_name, recording_id)
+      metadata_file_name = directory_for_show_and_recording(show_name, recording_id) + '/metadata.yml'
       metadata = File.exists?(metadata_file_name) ? YAML.load_file(metadata_file_name) : {}
 
-      thumbnail_file_name = directory_for_show_and_episode(show_name, episode) + '/thumbnail.png'
+      thumbnail_file_name = directory_for_show_and_recording(show_name, recording_id) + '/thumbnail.png'
       has_thumbnail = File.exists?(thumbnail_file_name)
 
-      webm_file_name = directory_for_show_and_episode(show_name, episode) + '/stream.webm'
+      webm_file_name = directory_for_show_and_recording(show_name, recording_id) + '/stream.webm'
       has_webm = File.exists?(webm_file_name)
 
       RecordingMetadata.new(
+        recording_id,
         has_thumbnail,
         has_webm,
         show_name,
-        episode,
         metadata[:channel],
         metadata[:subtitle],
         metadata[:description],
@@ -43,16 +43,16 @@ module SimplePvr
         metadata[:duration])
     end
 
-    def delete_show_episode(show_name, episode)
-      FileUtils.rm_rf(@recordings_directory + '/' + show_name + '/' + episode)
+    def delete_show_recording(show_name, recording_id)
+      FileUtils.rm_rf(@recordings_directory + '/' + show_name + '/' + recording_id)
     end
 
     def create_directory_for_recording(recording)
       show_directory = directory_for_show(recording.show_name)
       ensure_directory_exists(show_directory)
 
-      new_sequence_number = next_sequence_number_for(show_directory)
-      recording_directory = "#{show_directory}/#{new_sequence_number}"
+      recording_subdirectory = subdirectory_for_recording(recording, show_directory)
+      recording_directory = "#{show_directory}/#{recording_subdirectory}"
       ensure_directory_exists(recording_directory)
 
       create_metadata(recording_directory, recording)
@@ -60,8 +60,8 @@ module SimplePvr
       recording_directory
     end
     
-    def directory_for_show_and_episode(show_name, episode)
-      directory_for_show(show_name) + '/' + episode
+    def directory_for_show_and_recording(show_name, recording_id)
+      directory_for_show(show_name) + '/' + recording_id
     end
 
     private
@@ -75,9 +75,16 @@ module SimplePvr
       FileUtils.makedirs(directory) unless File.exists?(directory)
     end
     
-    def next_sequence_number_for(base_directory)
-      largest_current_sequence_number = Dir.new(base_directory).map {|dir_name| dir_name.to_i }.max
-      1 + largest_current_sequence_number
+    def subdirectory_for_recording(recording, base_directory)
+      start_time_millis = recording.start_time.to_i
+      path = "#{base_directory}/#{start_time_millis}"
+      return "#{start_time_millis}" unless File.exists?(path)
+
+      sequence_number = 1
+      while File.exists?("#{path}-#{sequence_number}")
+        sequence_number += 1
+      end
+      "#{start_time_millis}-#{sequence_number}"
     end
     
     def create_metadata(directory, recording)

@@ -24,7 +24,7 @@ module SimplePvr
       end
 
       get '/:show_id/recordings/?' do |show_id|
-        recordings = PvrInitializer.recording_manager.episodes_of(show_id)
+        recordings = PvrInitializer.recording_manager.recordings_of(show_id)
         recordings.map {|recording| recording_hash(show_id, recording) }.to_json
       end
 
@@ -33,28 +33,28 @@ module SimplePvr
         recording_hash(show_id, recording).to_json
       end
 
-      delete '/:show_id/recordings/:episode' do |show_id, episode|
-        PvrInitializer.recording_manager.delete_show_episode(show_id, episode)
+      delete '/:show_id/recordings/:recording_id' do |show_id, recording_id|
+        PvrInitializer.recording_manager.delete_show_recording(show_id, recording_id)
         ''
       end
 
       get '/:show_id/recordings/:recording_id/thumbnail.png' do |show_id, recording_id|
-        path = PvrInitializer.recording_manager.directory_for_show_and_episode(show_id, recording_id)
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
         send_file File.join(path, 'thumbnail.png')
       end
 
       get '/:show_id/recordings/:recording_id/stream.ts' do |show_id, recording_id|
-        path = PvrInitializer.recording_manager.directory_for_show_and_episode(show_id, recording_id)
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
         send_file File.join(path, 'stream.ts')
       end
 
       get '/:show_id/recordings/:recording_id/stream.webm' do |show_id, recording_id|
-        path = PvrInitializer.recording_manager.directory_for_show_and_episode(show_id, recording_id)
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
         send_file File.join(path, 'stream.webm'), type: :webm
       end
 
       post '/:show_id/recordings/:recording_id/transcode' do |show_id, recording_id|
-        path = PvrInitializer.recording_manager.directory_for_show_and_episode(show_id, recording_id)
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
         Ffmpeg.transcode_to_webm(path)
         ''
       end
