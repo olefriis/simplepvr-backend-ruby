@@ -169,11 +169,9 @@ If you want to keep Karma running and let it execute whenever a file changes, ru
 
         karma start test/karma.conf.js
 
-The specs currently use Selenium to drive Firefox, but you can choose to use PhantomJS instead:
+The specs currently use Poltergeist to drive PhantomJS, but you can let Selenium drive Firefox instead:
 
-        capybara_driver=poltergeist rake test:features
-
-This currently doesn't work for all specs, though. (Again, if you can fix it, please send a pull request!)
+        capybara_driver=selenium rake test:features
 
 To create the gem, make sure that lib/simple_pvr/version.rb is up-to-date, commit everything and run:
 

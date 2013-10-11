@@ -1,4 +1,5 @@
 require 'timeout'
+require 'pry'
 
 RSpec::Matchers.define :become do |expected|
   match do |block|
@@ -91,6 +92,11 @@ end
 When /I choose not to record the first scheduled show/ do
   page.should have_link('Do not record this specific show')
   first(:link, 'Do not record this specific show').click
+
+  # Poltergeist/PhantomJS insists on not reloading "upcoming recordings",
+  # for some reason (probably I've done something wrong...?), so we need
+  # to refresh the page
+  visit page.driver.browser.current_url
 end
 
 Then /I should see the programme title suggestion "(.*)"/ do |suggestion|
