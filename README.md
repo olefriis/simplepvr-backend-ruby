@@ -184,4 +184,5 @@ the automatic tests, right?), and execute
 
 ...which will release the gem to rubygems.org.
 
-I'm trying to make Travis CI like SimplePVR, but it's not easy: [![Build Status](https://travis-ci.org/olefriis/simplepvr-backend-ruby.png)](https://travis-ci.org/olefriis/simplepvr-backend-ruby)
+I'm trying to make Travis CI like SimplePVR, but it's not easy... tests run fine on my own and several
+other machines, but fail on Travis: [![Build Status](https://travis-ci.org/olefriis/simplepvr-backend-ruby.png)](https://travis-ci.org/olefriis/simplepvr-backend-ruby)
