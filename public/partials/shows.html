@@ -1,7 +1,6 @@
-<div class="row" ng-repeat="showChunk in shows | orderBy:'name' | chunk:2">
-	<div class="col-md-6" ng-repeat="show in showChunk">
-    	<h2>{{show.name}}</h2>
-		<p><a class="btn btn-default" ng-href="/shows/{{show.id}}">Episodes</a>
-		<button class="btn btn-warning" type="button" ng-click="deleteEpisodes(show)">Delete all episodes</button></p>
-	</div>
+<div class="col-md-6" ng-repeat-start="show in shows | orderBy:'name'">
+	<h2>{{show.name}}</h2>
+	<p><a class="btn btn-default" ng-href="/shows/{{show.id}}">Episodes</a>
+	<button class="btn btn-warning" type="button" ng-click="deleteEpisodes(show)">Delete all episodes</button></p>
 </div>
+<div class="clearfix" ng-show="$index % 2 == 1" ng-repeat-end></div>

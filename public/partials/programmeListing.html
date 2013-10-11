@@ -7,14 +7,13 @@
 	<img class="channel-icon" src="{{programmeListing.channel.icon_url}}" />
 	<span class="channel-name">{{programmeListing.channel.name}}</span>
 </form>
-<div class="row" ng-repeat="dayChunk in programmeListing.days | chunk:3">
-	<div class="col-lg-4" ng-repeat="day in dayChunk">
-		<table class="table table-condensed table-striped table-bordered">
-			<th colspan="2">{{day.date | date:'fullDate'}}</th>
-			<tr ng-repeat="programme in day.programmes | filter:programmeFilter" class="{{classForProgrammeLine(programme)}}">
-				<td class="col-md-1">{{programme.start_time | date:'HH:mm'}}</td>
-				<td><a ng-href="/programmes/{{programme.id}}">{{programme.title}}</td>
-			</tr>
-		</table>
-	</div>
+<div class="col-lg-4" ng-repeat-start="day in programmeListing.days">
+	<table class="table table-condensed table-striped table-bordered">
+		<th colspan="2">{{day.date | date:'fullDate'}}</th>
+		<tr ng-repeat="programme in day.programmes | filter:programmeFilter" class="{{classForProgrammeLine(programme)}}">
+			<td class="col-md-1">{{programme.start_time | date:'HH:mm'}}</td>
+			<td><a ng-href="/programmes/{{programme.id}}">{{programme.title}}</td>
+		</tr>
+	</table>
 </div>
+<div class="clearfix" ng-show="$index % 3 == 2" ng-repeat-end></div>

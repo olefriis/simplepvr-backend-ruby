@@ -3,15 +3,14 @@
 		<h1>Results for {{query}}</h1>
 	</div>
 </div>
-<div class="row" ng-repeat="programmeChunk in result | chunk:2">
-	<div class="col-md-12" ng-repeat="programme in programmeChunk">
-		<h2>{{programme.title}}</h2>
-		<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
-		<p>{{programme.subtitle}}</p>
-		<p>{{programme.description}}</p>
-		<p><a ng-href="/programmes/{{programme.id}}">Show details</a></p>
-		<div ng-show="programme.is_scheduled">
-			<p>This programme is being recorded.</p>
-		</div>
+<div class="col-md-12" ng-repeat-start="programme in result">
+	<h2>{{programme.title}}</h2>
+	<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
+	<p>{{programme.subtitle}}</p>
+	<p>{{programme.description}}</p>
+	<p><a ng-href="/programmes/{{programme.id}}">Show details</a></p>
+	<div ng-show="programme.is_scheduled">
+		<p>This programme is being recorded.</p>
 	</div>
 </div>
+<div class="clearfix" ng-show="$index % 2 == 1" ng-repeat-end></div>

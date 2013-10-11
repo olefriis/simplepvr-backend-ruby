@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('simplePvr', ['simplePvrServices', 'simplePvrFilters']).
+angular.module('simplePvr', ['ngRoute', 'simplePvrServices', 'simplePvrFilters']).
 directive('titleSearch', function() {
 	return {
 		templateUrl: '/app/templates/titleSearch.html',
