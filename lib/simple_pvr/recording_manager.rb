@@ -2,8 +2,8 @@ module SimplePvr
   RecordingMetadata = Struct.new(:id, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :start_time, :duration)
   
   class RecordingManager
-    def initialize(recordings_directory=nil)
-      @recordings_directory = recordings_directory || Dir.pwd + '/recordings'
+    def initialize(recordings_directory)
+      @recordings_directory = recordings_directory
     end
     
     def shows

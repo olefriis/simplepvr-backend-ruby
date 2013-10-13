@@ -42,7 +42,7 @@ module SimplePvr
       end
 
       def recording_hash(show_id, recording)
-        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording.episode)
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording.id)
         {
           id: recording.id,
           show_id: show_id,

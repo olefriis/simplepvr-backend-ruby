@@ -11,7 +11,7 @@ Background:
     | Animals   |
   And the following programmes:
     | title           | subtitle                        | channel   | day |
-	| Blast from past | Prehistoric documentary         | Channel 1 |  -1 |
+	  | Blast from past | Prehistoric documentary         | Channel 1 |  -1 |
     | Bonderøven      | Danish documentary              | Channel 1 |   0 |
     | Blood and Bone  | American action movie from 2009 | Channel 1 |   0 |
     | Noddy           | Children's programme            | Channel 2 |   0 |

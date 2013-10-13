@@ -41,6 +41,24 @@ Given /the following channels\:/ do |channel_table|
   end
 end
 
+Given /the following recorded shows:/ do |shows_table|
+  recordings_directory = Dir.pwd + '/features/recordings'
+  FileUtils.rm_rf(recordings_directory)
+  FileUtils.makedirs(recordings_directory)
+
+  shows_table.hashes.each do |show|
+    FileUtils.makedirs(recordings_directory + '/' + show['name'])
+  end
+end
+
+Given /the following recordings:/ do |recordings_table|
+  recordings_directory = Dir.pwd + '/features/recordings'
+
+  recordings_table.hashes.each do |recording|
+    FileUtils.makedirs(recordings_directory + '/' + recording['name'] + '/' + recording['id'])
+  end
+end
+
 Given /I have navigated to the week overview for channel "(.*)"/ do |channel|
   visit path_to('the channel overview page')
   fill_in('channel_filter', :with => channel)
@@ -98,6 +116,17 @@ Then /I should see the programme title suggestion "(.*)"/ do |suggestion|
   page.should have_text(text)
 end
 
+When /I see the details for show "(.*)"/ do |show_name|
+  div = find(:xpath, "//h2[text()='#{show_name}']").find(:xpath, '..')
+  within(div) do
+    click_on('Episodes')
+  end
+end
+
+Then /I should see (\d*) recordings/ do |number_of_recordings|
+  expect { page.all(:xpath, "//button[text()='Delete recording']").length }.to become(number_of_recordings.to_i)
+end
+
 Then /I should see "(.*)" in the page contents/ do |text|
   within('#contents') do
     page.should have_text(text)
@@ -140,6 +169,10 @@ end
 
 Then /I wait (\d*) seconds/ do |seconds|
   sleep seconds.to_i
+end
+
+Then /I start the debugger/ do
+  binding.pry
 end
 
 def find_or_create_channel_with_name(name)
