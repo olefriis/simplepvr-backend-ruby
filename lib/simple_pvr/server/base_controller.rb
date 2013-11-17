@@ -37,6 +37,7 @@ module SimplePvr
           start_time: programme.start_time,
           is_scheduled: PvrInitializer.scheduler.scheduled?(programme),
           episode_num: programme.episode_num,
+          icon_url: programme.icon_url,
           is_outdated: programme.outdated?
         }
       end

@@ -17,7 +17,6 @@ Her kommer Noddy - så kom ud og leg! Den lille dreng af træ har altid travlt m
 		<category lang="EN">kids</category>
 		<category lang="EN">serie</category>
 		<episode-num system="xmltv_ns"> .2/12. </episode-num>
-		<icon src="http://ontv.dk//imgs/print_img.php?sti=/imgs/epg/channel/2012-07-17/1/11342497600.jpg&amp;height=300&amp;width=300"/>
 	</programme>
 	<programme channel="www.ontv.dk/tv/1" start="20120717061000 +0200" stop="20120717062000 +0200">
 		<title lang="dk">Sprutte-Patruljen</title>
@@ -44,7 +43,6 @@ Her kommer Noddy - så kom ud og leg! Den lille dreng af træ har altid travlt m
 Slå griseører og øjne ud, for modige Olivia er klar til at tage verden med storm! Den skæve, skøre og sjove gris Olivia er god til alt muligt, bl.a. at gøre folk rigtig trætte. Olivia kan nemlig som ingen anden prøve tøj fra skabet eller male billeder på væggen. Olivia har også startet sit eget band og sågar optrådt i cirkus.</desc>
 		<category lang="EN">kids</category>
 		<category lang="EN">serie</category>
-		<icon src="http://ontv.dk//imgs/print_img.php?sti=/imgs/epg/channel/2012-07-17/1/11342500600.jpg&amp;height=300&amp;width=300"/>
 	</programme>
 	
 	<programme channel="www.ontv.dk/tv/2" start="20120717080500 +0200" stop="20120717120000 +0200">
@@ -85,7 +83,6 @@ Sendt første gang 16.08.06</desc>
 		<desc lang="dk">Den tidligere jægersoldat Marco Tancredis hustru, Lidia, er blevet skudt. Marco er sikker på, at det var overlagt mord, og han er parat til at gøre hvad som helst for at finde ud af, hvem der står bag. Snart gør han en forbløffende opdagelse - nemlig at Lidia arbejdede for den italienske efterretningstjeneste. Men hvad arbejdede hun på? Og hvorfor skulle hun slås ihjel?</desc>
 		<category lang="EN">serie</category>
 		<episode-num system="xmltv_ns"> .1/12. </episode-num>
-		<icon src="http://ontv.dk//imgs/print_img.php?sti=/imgs/epg/channel/2012-07-17/2/21342524600.jpg&amp;height=300&amp;width=300"/>
 	</programme>
 	<programme channel="www.ontv.dk/tv/2" start="20120717142500 +0200" stop="20120717152000 +0200">
 		<title lang="dk">Intelligence - i hemmelig tjeneste</title>
@@ -93,6 +90,5 @@ Sendt første gang 16.08.06</desc>
 		<desc lang="dk">Den tidligere jægersoldat Marco Tancredis hustru er blevet myrdet. Marco har opdaget, at hun arbejdede for den italienske efterretningstjeneste, og nu har han selv ladet sig ansætte som efterretningsagent for at finde frem til sandheden om hendes død. Marcos jagt på svar bringer ham til Rumænien - og ansigt til ansigt med en kvinde, der er ude på sit eget private hævntogt.</desc>
 		<category lang="EN">serie</category>
 		<episode-num system="xmltv_ns"> .2/12. </episode-num>
-		<icon src="http://ontv.dk//imgs/print_img.php?sti=/imgs/epg/channel/2012-07-17/2/21342527900.jpg&amp;height=300&amp;width=300"/>
 	</programme>
 </tv>

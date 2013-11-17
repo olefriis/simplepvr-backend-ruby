@@ -11,6 +11,7 @@ module SimplePvr
       property :start_time, DateTime
       property :duration, Integer
       property :episode_num, String, index: true
+      property :icon_url, String, :length => 255
 
       belongs_to :channel
 
@@ -26,7 +27,7 @@ module SimplePvr
         Programme.destroy
       end
 
-      def self.add(channel, title, subtitle, description, start_time, duration, episode_num)
+      def self.add(channel, title, subtitle, description, start_time, duration, episode_num, icon_url=nil)
         channel.programmes.create(
           channel: channel,
           title: title,
@@ -34,7 +35,8 @@ module SimplePvr
           description: description,
           start_time: start_time,
           duration: duration.to_i,
-          episode_num: episode_num)
+          episode_num: episode_num,
+          icon_url: icon_url)
       end
 
       def self.with_title(title)
