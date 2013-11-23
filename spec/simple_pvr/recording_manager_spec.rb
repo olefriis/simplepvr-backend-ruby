@@ -53,8 +53,21 @@ module SimplePvr
       recordings[1].channel.should == 'Channel 4'
       recordings[1].subtitle.should == 'A subtitle'
       recordings[1].description.should == 'A description'
-      recordings[1].start_time.should == start_time
+      recordings[1].start_time.to_i.should == start_time.to_i
       recordings[1].duration == 10.minutes
+    end
+    
+    it 'knows when no icon exists' do
+      recordings = @manager.recordings_of('series 1')
+  
+      recordings[0].has_icon.should be_false
+    end
+    
+    it 'knows when icon exists' do
+      FileUtils.touch(@recording_dir + "/series 1/1/icon")
+      recordings = @manager.recordings_of('series 1')
+  
+      recordings[0].has_icon.should be_true
     end
     
     it 'knows when no thumbnail exists' do

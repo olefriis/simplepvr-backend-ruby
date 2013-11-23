@@ -28,7 +28,7 @@ module SimplePvr
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes.xmltv'))
     end
     
-    it 'reads programme images where available' do
+    it 'reads programme icons where available' do
       Model::Programme.should_receive(:add).with(
         @dr_1,
         'Maria Wern: Alle de stille døde',
@@ -39,7 +39,7 @@ module SimplePvr
         anything(),
         'http://static.timefor.tv/imgs/print_img.php?sti=imgs/epg/channel/2013-11-17/528381020f0c1.jpg&height=300&width=300')
       
-      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-images.xmltv'))
+      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-icons.xmltv'))
     end
     
     it 'ignores programmes for channels with no mapping' do

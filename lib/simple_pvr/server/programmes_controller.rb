@@ -10,7 +10,7 @@ module SimplePvr
       end
 
       get '/:id' do |id|
-        programme = Model::Programme.get(id)
+        programme = Model::Programme.get(id.to_i)
         programme_hash(programme).to_json
       end
 

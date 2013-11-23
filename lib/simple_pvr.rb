@@ -9,6 +9,7 @@ require File.dirname(__FILE__) + '/simple_pvr/recording_planner'
 require File.dirname(__FILE__) + '/simple_pvr/recorder'
 require File.dirname(__FILE__) + '/simple_pvr/scheduler'
 require File.dirname(__FILE__) + '/simple_pvr/recording_manager'
+require File.dirname(__FILE__) + '/simple_pvr/programme_icon_fetcher'
 require File.dirname(__FILE__) + '/simple_pvr/ffmpeg'
 require File.dirname(__FILE__) + '/simple_pvr/xmltv_reader'
 

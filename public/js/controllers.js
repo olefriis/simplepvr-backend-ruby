@@ -119,7 +119,7 @@ function ShowCtrl($scope, $routeParams, $http, Show, Recording) {
 	}
 	
 	$scope.deleteRecording = function(recording) {
-		if (confirm("Really delete recording\n" + recording.episode + "\nof show\n" + $scope.show.name + "\n?")) {
+		if (confirm("Really delete this recording of show\n" + $scope.show.name + "\n?")) {
 			recording.$delete(loadRecordings);
 		}
 	}

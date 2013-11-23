@@ -15,7 +15,7 @@ module SimplePvr
       @scheduler = double('Scheduler')
       PvrInitializer.stub(scheduler: @scheduler)
   
-      Time.stub!(now: Time.local(@next_year, 7, 9, 20, 50))
+      Time.stub(now: Time.local(@next_year, 7, 9, 20, 50))
     end
   
     it 'adjusts end time for single programme schedules' do

@@ -1,5 +1,5 @@
 module SimplePvr
-  RecordingMetadata = Struct.new(:id, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :start_time, :duration)
+  RecordingMetadata = Struct.new(:id, :has_icon, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :start_time, :duration)
   
   class RecordingManager
     def initialize(recordings_directory)
@@ -25,6 +25,9 @@ module SimplePvr
       metadata_file_name = directory_for_show_and_recording(show_name, recording_id) + '/metadata.yml'
       metadata = File.exists?(metadata_file_name) ? YAML.load_file(metadata_file_name) : {}
 
+      icon_file_name = directory_for_show_and_recording(show_name, recording_id) + '/icon'
+      has_icon = File.exists?(icon_file_name)
+
       thumbnail_file_name = directory_for_show_and_recording(show_name, recording_id) + '/thumbnail.png'
       has_thumbnail = File.exists?(thumbnail_file_name)
 
@@ -33,6 +36,7 @@ module SimplePvr
 
       RecordingMetadata.new(
         recording_id,
+        has_icon,
         has_thumbnail,
         has_webm,
         show_name,

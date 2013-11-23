@@ -3,7 +3,7 @@ module SimplePvr
     def self.reload
       planner = self.new
       planner.read
-      SimplePvr::Model::Schedule.cleanup
+      Model::Schedule.cleanup
     end
     
     def initialize
@@ -123,8 +123,8 @@ module SimplePvr
       end
     end
     
-    def add_recording(title, channel, start_time, duration, programme=nil)
-      @recordings << SimplePvr::Model::Recording.new(channel, title, start_time, duration, programme)
+    def add_recording(title, channel, start_time, duration, programme)
+      @recordings << Model::Recording.new(channel, title, start_time, duration, programme)
     end
 
     # Given a time of day as string, e.g. "10:35", returns an integer which can be used to compare with other

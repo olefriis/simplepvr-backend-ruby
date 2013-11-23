@@ -3,8 +3,9 @@ require 'simple_pvr'
 module SimplePvr
   describe Recorder do
     before do
+      @programme = Model::Programme.new
       @channel = Model::Channel.new(frequency: 282000000, channel_id: 1098)
-      @recording = Model::Recording.new(@channel, 'Star Trek', 'start time', 'duration')
+      @recording = Model::Recording.new(@channel, 'Star Trek', 'start time', 'duration', @programme)
   
       @hdhomerun = double('HDHomeRun')
       PvrInitializer.stub(hdhomerun: @hdhomerun)
@@ -19,6 +20,14 @@ module SimplePvr
     it 'can start recording' do
       @hdhomerun.should_receive(:start_recording).with(1, 282000000, 1098, 'recording directory')
     
+      @recorder.start!
+    end
+    
+    it 'starts fetching programme icon when recording starts' do
+      @programme.icon_url = 'http://tv-images.com/myImage.png'
+      ProgrammeIconFetcher.should_receive(:fetch).with('http://tv-images.com/myImage.png', 'recording directory/icon')
+      @hdhomerun.should_receive(:start_recording)
+      
       @recorder.start!
     end
     

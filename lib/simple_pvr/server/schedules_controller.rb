@@ -20,13 +20,13 @@ module SimplePvr
       end
       
       get '/:id' do |id|
-        schedule_map(Model::Schedule.get(id)).to_json
+        schedule_map(Model::Schedule.get(id.to_i)).to_json
       end
       
       post '/:id' do |id|
         parameters = JSON.parse(request.body.read)
         channel_id = parameters['channel'] != nil ? parameters['channel']['id'].to_i : 0
-        schedule = Model::Schedule.get(id)
+        schedule = Model::Schedule.get(id.to_i)
         schedule.title = parameters['title']
         schedule.channel = channel_id > 0 ? Model::Channel.get(channel_id) : nil
 
@@ -51,7 +51,7 @@ module SimplePvr
       end
 
       delete '/:id' do |id|
-        Model::Schedule.get(id).destroy
+        Model::Schedule.get(id.to_i).destroy
         reload_schedules
         ''
       end

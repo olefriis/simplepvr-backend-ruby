@@ -51,6 +51,7 @@ module SimplePvr
           description: recording.description,
           start_time: recording.start_time,
           channel_name: recording.channel,
+          has_icon: recording.has_icon,
           has_thumbnail: recording.has_thumbnail,
           has_webm: recording.has_webm,
           local_file_url: 'file://' + File.join(path, 'stream.ts')

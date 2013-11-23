@@ -1,6 +1,4 @@
 require 'fileutils'
-require File.dirname(__FILE__) + '/hdhomerun'
-require File.dirname(__FILE__) + '/pvr_logger'
 
 module SimplePvr
   class Recorder
@@ -11,7 +9,10 @@ module SimplePvr
     def start!
       @directory = PvrInitializer.recording_manager.create_directory_for_recording(@recording)
       PvrInitializer.hdhomerun.start_recording(@tuner, @recording.channel.frequency, @recording.channel.channel_id, @directory)
-    
+      
+      icon_url = @recording.programme.icon_url
+      ProgrammeIconFetcher.fetch(icon_url, "#{@directory}/icon") if icon_url
+      
       PvrLogger.info "Started recording #{@recording.show_name} in #{@directory}"
     end
   

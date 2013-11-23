@@ -38,6 +38,11 @@ module SimplePvr
         ''
       end
 
+      get '/:show_id/recordings/:recording_id/icon' do |show_id, recording_id|
+        path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
+        send_file File.join(path, 'icon')
+      end
+
       get '/:show_id/recordings/:recording_id/thumbnail.png' do |show_id, recording_id|
         path = PvrInitializer.recording_manager.directory_for_show_and_recording(show_id, recording_id)
         send_file File.join(path, 'thumbnail.png')

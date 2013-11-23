@@ -8,11 +8,11 @@ module SimplePvr
       end
 
       get '/:id' do |id|
-        channel_with_current_programmes_hash(Model::Channel.with_current_programmes(id)).to_json
+        channel_with_current_programmes_hash(Model::Channel.with_current_programmes(id.to_i)).to_json
       end
 
       post '/:id/hide' do |id|
-        channel = Model::Channel.get(id)
+        channel = Model::Channel.get(id.to_i)
         channel.hidden = true
         channel.save
         {
@@ -23,7 +23,7 @@ module SimplePvr
       end
 
       post '/:id/show' do |id|
-        channel = Model::Channel.get(id)
+        channel = Model::Channel.get(id.to_i)
         channel.hidden = false
         channel.save
         {
@@ -42,7 +42,7 @@ module SimplePvr
         end
         previous_date = this_date.advance(days: -7)
         next_date = this_date.advance(days: 7)
-        channel = Model::Channel.get(channel_id)
+        channel = Model::Channel.get(channel_id.to_i)
 
         days = (0..6).map do |date_advanced|
           from_date = this_date.advance(days: date_advanced)

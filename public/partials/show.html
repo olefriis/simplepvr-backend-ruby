@@ -3,18 +3,24 @@
 		<h1>Recordings of {{show.name}}</h1>
 	</div>
 </div>
-<div class="col-md-6" ng-repeat-start="recording in recordings | orderBy:'start_time'">
-		<h2>{{recording.episode}}</h2>
-	<img ng-show="recording.has_thumbnail" class="thumbnail" ng-src="/api/shows/{{show.name}}/recordings/{{recording.episode}}/thumbnail.png">
-	<p>{{recording.subtitle}}</p>
-	<p>{{recording.start_time | date:'fullDate'}} at {{recording.start_time | date:'HH:mm'}} from channel {{recording.channel_name}}.</p>
-	<p>{{recording.description}}</p>
-	<p>
-		<a target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.episode}}/stream.ts">Raw stream</a>
-		-
-		<a ng-show="recording.has_webm" target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.episode}}/stream.webm">View in browser (Firefox/Chrome)</a>
-		<button ng-hide="recording.has_webm" class="btn btn-default" type="button" ng-click="startTranscoding(recording)">Prepare for playing in Firefox/Chrome</button>
-	</p>
-	<p><button class="btn btn-warning" type="button" ng-click="deleteRecording(recording)">Delete recording</button></p>
+<div class="row" ng-repeat="recording in recordings | orderBy:'start_time'">
+	<div class="col-md-12 media">
+		<a class="pull-left" ng-if="recording.has_icon">
+			<img class="media-object" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/icon">
+		</a>
+		<div class="media-body">
+			<h1 class="media-heading">{{recording.episode}}</h1>
+			<img ng-if="recording.has_thumbnail" class="thumbnail" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/thumbnail.png">
+			<p>{{recording.subtitle}}</p>
+			<p>{{recording.start_time | date:'fullDate'}} at {{recording.start_time | date:'HH:mm'}} from channel {{recording.channel_name}}.</p>
+			<p>{{recording.description}}</p>
+			<p>
+				<a target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.ts">Raw stream</a>
+				-
+				<a ng-show="recording.has_webm" target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.webm">View in browser (Firefox/Chrome)</a>
+				<button ng-hide="recording.has_webm" class="btn btn-default" type="button" ng-click="startTranscoding(recording)">Prepare for playing in Firefox/Chrome</button>
+			</p>
+			<p><button class="btn btn-warning" type="button" ng-click="deleteRecording(recording)">Delete recording</button></p>
+		</div>
+	</div>
 </div>
-<div class="clearfix" ng-show="$index % 2 == 1" ng-repeat-end></div>
