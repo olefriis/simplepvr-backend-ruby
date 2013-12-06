@@ -2,9 +2,14 @@ require 'simple_pvr'
 
 module SimplePvr
   describe ProgrammeIconFetcher do
+    before do
+      @recording_dir = File.dirname(__FILE__) + '/../resources/recordings'
+      FileUtils.rm_rf(@recording_dir) if Dir.exists?(@recording_dir)
+      FileUtils.mkdir_p(@recording_dir)
+    end
+    
     it 'fetches image and stores it in specified location' do
-      destination_file = "#{File.dirname(__FILE__)}/../resources/recordings/dummyImage.png"
-      File.delete(destination_file) if File.exists?(destination_file)
+      destination_file = "#{@recording_dir}/dummyImage.png"
 
       # We're using open-uri, which unfortunately does not understand file://, which would be perfect for
       # this unit test. However, URLs starting with / are apparently interpreted as normal files.
