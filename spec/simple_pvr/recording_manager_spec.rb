@@ -14,7 +14,8 @@ module SimplePvr
     end
     
     it 'knows which shows are recorded' do
-      @manager.shows.should == ['Another series', 'series 1']
+      @manager.shows.size.should == 2
+      @manager.shows.should include('Another series', 'series 1')
     end
     
     it 'can delete all recordings of a given show' do
