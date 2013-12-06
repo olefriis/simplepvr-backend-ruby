@@ -50,7 +50,7 @@ module SimplePvr
     end
     
     def add_programme(channel_name, programme)
-      title_node, subtitle_node, description_node, episode_num_node, icon_node = nil
+      title_node, subtitle_node, description_node, episode_num_node, icon_node, credits_node = nil
       programme.children.each do |child|
         case child.name
         when 'title'
@@ -63,6 +63,8 @@ module SimplePvr
           episode_num_node = child
         when 'icon'
           icon_node = child
+        when 'credits'
+          credits_node = child
         end
       end
       
@@ -74,7 +76,18 @@ module SimplePvr
       stop_time = Time.parse(programme[:stop])
       icon_url = icon_node ? icon_node['src'] : nil
 
-      Programme.add(channel_from_name(channel_name), title, subtitle, description, start_time, stop_time - start_time, episode_num, icon_url)
+      programme = Programme.add(channel_from_name(channel_name), title, subtitle, description, start_time, stop_time - start_time, episode_num, icon_url)
+      
+      if credits_node
+        credits_node.children.each do |child|
+          case child.name
+          when 'director'
+            programme.directors.create(name: child.text)
+          when 'actor'
+            programme.actors.create(role_name: child[:role], actor_name: child.text)
+          end
+        end
+      end
     end
     
     def channel_from_name(channel_name)

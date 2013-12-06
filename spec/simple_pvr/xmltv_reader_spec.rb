@@ -4,42 +4,51 @@ require 'simple_pvr'
 module SimplePvr
   describe XmltvReader do
     before do
-      @dr_1 = double(name: 'DR 1')
-      @dr_1.stub(:icon_url=)
+      Model::DatabaseInitializer.prepare_for_test
+      Model::DatabaseInitializer.clear
   
-      Model::Channel.stub(all: [@dr_1])
-      Model::Programme.stub(:transaction).and_yield
-      Model::Programme.stub(:destroy)
+      Model::Channel.create(name: 'DR 1')
+  
       @xmltv_reader = XmltvReader.new({'www.ontv.dk/tv/1' => 'DR 1'})
     end
     
     it 'populates programme information through the DAO' do
-      Model::Programme.stub(:add)
-      Model::Programme.should_receive(:add).with(
-        @dr_1,
-        'Noddy',
-        'Bare vær dig selv, Noddy.',
-        "Tegnefilm.\nHer kommer Noddy - så kom ud og leg! Den lille dreng af træ har altid travlt med at køre sine venner rundt i Legebyen - og du kan altid høre, når han er på vej!",
-        Time.new(2012, 7, 17, 6, 0, 0, "+02:00"),
-        10.minutes,
-        ' .2/12. ',
-        nil)
-      
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes.xmltv'))
+      
+      noddy = Model::Programme.first(title: 'Noddy')
+      noddy.channel.name.should == 'DR 1'
+      noddy.title.should == 'Noddy'
+      noddy.subtitle.should == 'Bare vær dig selv, Noddy.'
+      noddy.description.should == "Tegnefilm.\nHer kommer Noddy - så kom ud og leg! Den lille dreng af træ har altid travlt med at køre sine venner rundt i Legebyen - og du kan altid høre, når han er på vej!"
+      noddy.start_time.should == Time.new(2012, 7, 17, 6, 0, 0, "+02:00")
+      noddy.duration.should == 10.minutes
+      noddy.episode_num.should == ' .2/12. '
     end
     
     it 'reads programme icons where available' do
-      Model::Programme.should_receive(:add).with(
-        @dr_1,
-        'Maria Wern: Alle de stille døde',
-        'Svensk krimi-miniserie fra 2010.',
-        anything(),
-        anything(),
-        anything(),
-        anything(),
-        'http://static.timefor.tv/imgs/print_img.php?sti=imgs/epg/channel/2013-11-17/528381020f0c1.jpg&height=300&width=300')
-      
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-icons.xmltv'))
+      
+      maria_wern = Model::Programme.first(title: 'Maria Wern: Alle de stille døde')
+      maria_wern.icon_url.should == 'http://static.timefor.tv/imgs/print_img.php?sti=imgs/epg/channel/2013-11-17/528381020f0c1.jpg&height=300&width=300'
+    end
+    
+    it 'reads programme directors where available' do
+      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-credits.xmltv'))
+      
+      maria_wern = Model::Programme.first(title: 'Maria Wern: Alle de stille døde')
+      maria_wern.directors.length.should == 1
+      maria_wern.directors[0].name.should == 'Erik Leijonborg'
+    end
+    
+    it 'reads programme actors where available' do
+      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-credits.xmltv'))
+      
+      maria_wern = Model::Programme.first(title: 'Maria Wern: Alle de stille døde')
+      maria_wern.actors.length.should == 3
+      maria_wern.actors[0].role_name.should == 'Maria Wern'
+      maria_wern.actors[0].actor_name.should == 'Eva Röse'
+      maria_wern.actors[1].role_name.should == 'Thomas Hartman'
+      maria_wern.actors[1].actor_name.should == 'Allan Svensson'
     end
     
     it 'ignores programmes for channels with no mapping' do
@@ -50,17 +59,17 @@ module SimplePvr
     end
   
     it 'adds channel icons to existing channels' do
-      Model::Programme.stub(:add) # necessary to deal with the way Programme setup its relation to Channel
-      @dr_1.should_receive(:icon_url=).with("http://ontv.dk/imgs/epg/logos/dr1_big.png")
-  
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes.xmltv'))
+      
+      dr_1 = Model::Channel.first(name: 'DR 1')
+      dr_1.icon_url.should == 'http://ontv.dk/imgs/epg/logos/dr1_big.png'
     end
   
     it 'has no problem with xml with no channel icons' do
-      Model::Programme.stub(:add) # necessary to deal with the way Programme setup its relation to Channel
-      @dr_1.should_not_receive(:icon_url=)
-  
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-without-icon.xmltv'))
+      
+      dr_1 = Model::Channel.first(name: 'DR 1')
+      dr_1.icon_url.should be_nil
     end
   end
 end

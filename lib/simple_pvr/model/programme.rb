@@ -14,6 +14,8 @@ module SimplePvr
       property :icon_url, String, :length => 255
 
       belongs_to :channel
+      has n, :directors, 'ProgrammeDirector'
+      has n, :actors, 'ProgrammeActor'
 
       def end_time
         @start_time.advance(seconds: duration)
@@ -24,6 +26,8 @@ module SimplePvr
       end
 
       def self.clear
+        ProgrammeDirector.destroy
+        ProgrammeActor.destroy
         Programme.destroy
       end
 
