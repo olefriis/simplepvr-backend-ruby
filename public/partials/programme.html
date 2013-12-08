@@ -9,6 +9,13 @@
 				<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
 				<p>{{programme.subtitle}}</p>
 				<p>{{programme.description}}</p>
+				<p ng-repeat="director in programme.directors">
+					<strong>Director:</strong> {{director}}
+				</p>
+				<p ng-repeat="actor in programme.actors">
+					<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
+				</p>
+				
 		
 		        <div ng-show="programme.episode_num">Episode {{programme.episode_num | formatEpisode}}</div>
 				<div ng-show="programme.is_scheduled">
