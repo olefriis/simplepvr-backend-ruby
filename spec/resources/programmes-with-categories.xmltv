@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tv generator-info-name="www.ontv.dk/xmltv">
+	<channel id="www.ontv.dk/tv/1">
+		<display-name lang="dk">DR1 DK</display-name>
+	</channel>
+	<channel id="www.ontv.dk/tv/2">
+		<display-name lang="dk">DR2 DK</display-name>
+	</channel>
+	
+	<programme channel="www.ontv.dk/tv/1" start="20120717060000 +0200" stop="20120717061000 +0200">
+		<title lang="dk">Noddy</title>
+		<sub-title lang="dk">Bare vær dig selv, Noddy.</sub-title>
+		<desc lang="dk">Tegnefilm.
+Her kommer Noddy - så kom ud og leg! Den lille dreng af træ har altid travlt med at køre sine venner rundt i Legebyen - og du kan altid høre, når han er på vej!</desc>
+		<category lang="EN">kids</category>
+		<category lang="EN">serie</category>
+		<icon src="http://ontv.dk//imgs/print_img.php?sti=/imgs/epg/channel/2012-07-17/1/11342497600.jpg&amp;height=300&amp;width=300"/>
+	</programme>
+	<programme channel="www.ontv.dk/tv/1" start="20120717120000 +0200" stop="20120717123000 +0200">
+		<title lang="dk">Black Business</title>
+		<desc lang="dk">Hvis du har den rigtige idé, mod og eventyrlyst, kan du gøre store forretninger og tjene mange penge i Afrika. For Afrika er økonomisk set blandt de hurtigste voksende regioner i verden. Det sker lige nu, og det gælder om at komme først. Esben Sørensen er en rødhåret dansker på 30 år, der er vokset op delvist i Afrika og delvist i Danmark. Han har et pladeselskab, hvor han indtil nu kun har udgivet en enkelt plade - med sig selv. Drømmen er at Caravan Records bliver det største pladeselskab i Østafrika, og det er absolut ikke urealistisk, for Østafrika er fyldt med musikalsk talent, markedet er gigantisk og afrikanernes købekraft stiger.
+Sendt første gang 25.01.11</desc>
+		<category lang="EN">documentary</category>
+		<category lang="EN">serie</category>
+		<episode-num system="xmltv_ns"> .1/4. </episode-num>
+	</programme>
+</tv>

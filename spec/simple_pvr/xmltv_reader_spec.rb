@@ -51,6 +51,20 @@ module SimplePvr
       maria_wern.actors[1].actor_name.should == 'Allan Svensson'
     end
     
+    it 'reads programme categories' do
+      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-categories.xmltv'))
+      
+      noddy = Model::Programme.first(title: 'Noddy')
+      noddy.categories.length.should == 2
+      noddy.categories[0].name.should == 'kids'
+      noddy.categories[1].name.should == 'serie'
+      
+      black_business = Model::Programme.first(title: 'Black Business')
+      black_business.categories.length.should == 2
+      black_business.categories[0].name.should == 'documentary'
+      black_business.categories[1].name.should == 'serie'
+    end
+    
     it 'ignores programmes for channels with no mapping' do
       # There are two channels in the XMLTV file, but only one with a mapping
       Model::Programme.should_receive(:add).exactly(5).times

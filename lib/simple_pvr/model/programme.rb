@@ -14,6 +14,7 @@ module SimplePvr
       property :icon_url, String, :length => 255
 
       belongs_to :channel
+      has n, :categories, 'ProgrammeCategory'
       has n, :directors, 'ProgrammeDirector'
       has n, :actors, 'ProgrammeActor'
 
@@ -26,6 +27,7 @@ module SimplePvr
       end
 
       def self.clear
+        ProgrammeCategory.destroy
         ProgrammeDirector.destroy
         ProgrammeActor.destroy
         Programme.destroy

@@ -3,6 +3,7 @@ require 'dm-migrations'
 require 'active_support/time_with_zone'
 require File.dirname(__FILE__) + '/channel'
 require File.dirname(__FILE__) + '/programme'
+require File.dirname(__FILE__) + '/programme_category'
 require File.dirname(__FILE__) + '/programme_director'
 require File.dirname(__FILE__) + '/programme_actor'
 require File.dirname(__FILE__) + '/schedule'
@@ -21,6 +22,7 @@ module SimplePvr
     
       def self.clear
         Schedule.destroy
+        ProgrammeCategory.destroy
         ProgrammeDirector.destroy
         ProgrammeActor.destroy
         Programme.destroy
