@@ -35,6 +35,7 @@ module SimplePvr
           subtitle: programme.subtitle,
           description: programme.description,
           directors: programme.directors.map { |director| director.name },
+          presenters: programme.presenters.map { |presenter| presenter.name },
           actors: programme.actors.map { |actor| { role_name: actor.role_name, actor_name: actor.actor_name } },
           categories: programme.categories.map { |category| category },
           start_time: programme.start_time,

@@ -99,6 +99,8 @@ module SimplePvr
         case child.name
         when 'director'
           programme.directors.create(name: child.text)
+        when 'presenter'
+          programme.presenters.create(name: child.text)
         when 'actor'
           programme.actors.create(role_name: child[:role], actor_name: child.text)
         end

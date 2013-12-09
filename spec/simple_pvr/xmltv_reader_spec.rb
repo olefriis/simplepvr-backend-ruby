@@ -40,6 +40,14 @@ module SimplePvr
       maria_wern.directors[0].name.should == 'Erik Leijonborg'
     end
     
+    it 'reads programme presenters where available' do
+      @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-presenters.xmltv'))
+      
+      maria_wern = Model::Programme.first(title: 'Natholdet')
+      maria_wern.presenters.length.should == 1
+      maria_wern.presenters[0].name.should == 'Anders Breinholt.'
+    end
+    
     it 'reads programme actors where available' do
       @xmltv_reader.read(File.new(File.dirname(__FILE__) + '/../resources/programmes-with-credits.xmltv'))
       

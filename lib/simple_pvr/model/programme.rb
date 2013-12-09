@@ -16,6 +16,7 @@ module SimplePvr
       belongs_to :channel
       has n, :categories, 'ProgrammeCategory'
       has n, :directors, 'ProgrammeDirector'
+      has n, :presenters, 'ProgrammePresenter'
       has n, :actors, 'ProgrammeActor'
 
       def end_time
@@ -29,6 +30,7 @@ module SimplePvr
       def self.clear
         ProgrammeCategory.destroy
         ProgrammeDirector.destroy
+        ProgrammePresenter.destroy
         ProgrammeActor.destroy
         Programme.destroy
       end

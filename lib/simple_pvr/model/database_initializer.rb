@@ -5,6 +5,7 @@ require File.dirname(__FILE__) + '/channel'
 require File.dirname(__FILE__) + '/programme'
 require File.dirname(__FILE__) + '/programme_category'
 require File.dirname(__FILE__) + '/programme_director'
+require File.dirname(__FILE__) + '/programme_presenter'
 require File.dirname(__FILE__) + '/programme_actor'
 require File.dirname(__FILE__) + '/schedule'
 require File.dirname(__FILE__) + '/recording'
@@ -23,6 +24,7 @@ module SimplePvr
       def self.clear
         Schedule.destroy
         ProgrammeCategory.destroy
+        ProgrammePresenter.destroy
         ProgrammeDirector.destroy
         ProgrammeActor.destroy
         Programme.destroy
