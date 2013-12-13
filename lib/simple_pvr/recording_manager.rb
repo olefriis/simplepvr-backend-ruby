@@ -1,5 +1,5 @@
 module SimplePvr
-  RecordingMetadata = Struct.new(:id, :has_icon, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :start_time, :duration)
+  RecordingMetadata = Struct.new(:id, :has_icon, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :categories, :directors, :presenters, :actors, :start_time, :duration)
   
   class RecordingManager
     def initialize(recordings_directory)
@@ -43,6 +43,10 @@ module SimplePvr
         metadata[:channel],
         metadata[:subtitle],
         metadata[:description],
+        metadata[:categories] || [],
+        metadata[:directors] || [],
+        metadata[:presenters] || [],
+        metadata[:actors] || [],
         metadata[:start_time],
         metadata[:duration])
     end
@@ -99,10 +103,15 @@ module SimplePvr
         duration: recording.duration
       }
       
-      if recording.programme
+      programme = recording.programme
+      if programme
         metadata.merge!({
-          subtitle: recording.programme.subtitle,
-          description: recording.programme.description
+          subtitle: programme.subtitle,
+          description: programme.description,
+          categories: programme.categories.map { |category| category.name },
+          directors: programme.directors.map { |director| director.name },
+          presenters: programme.presenters.map { |presenter| presenter.name },
+          actors: programme.actors.map { |actor| { role_name: actor.role_name, actor_name: actor.actor_name } }
         })
       end
             

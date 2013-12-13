@@ -160,6 +160,12 @@ module SimplePvr
         start_time_millis = start_time.to_i
         recording = Model::Recording.new(double(name: 'Channel 4'), 'Extensive Metadata', start_time, 50.minutes)
         recording.programme = Model::Programme.new(subtitle: 'A subtitle', description: "A description,\nspanning several lines")
+        recording.programme.categories.new(name: 'series')
+        recording.programme.categories.new(name: 'children')
+        recording.programme.directors.new(name: 'The director')
+        recording.programme.presenters.new(name: 'The presenter')
+        recording.programme.actors.new(role_name: 'First role', actor_name: 'First actor')
+        recording.programme.actors.new(role_name: 'Second role', actor_name: 'Second actor')
         @manager.create_directory_for_recording(recording)
       
         metadata = YAML.load_file("#{@recording_dir}/Extensive Metadata/#{start_time_millis}/metadata.yml")
@@ -169,6 +175,10 @@ module SimplePvr
         metadata[:duration].should == 50.minutes
         metadata[:subtitle].should == 'A subtitle'
         metadata[:description].should == "A description,\nspanning several lines"
+        metadata[:categories].should == ['series', 'children']
+        metadata[:directors].should == ['The director']
+        metadata[:presenters].should == ['The presenter']
+        metadata[:actors].should == [{role_name: 'First role', actor_name: 'First actor'}, {role_name: 'Second role', actor_name: 'Second actor'}]
       end
     end
   end

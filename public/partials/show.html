@@ -14,6 +14,22 @@
 			<p>{{recording.subtitle}}</p>
 			<p>{{recording.start_time | date:'fullDate'}} at {{recording.start_time | date:'HH:mm'}} from channel {{recording.channel_name}}.</p>
 			<p>{{recording.description}}</p>
+			<p ng-repeat="director in recording.directors">
+				<strong>Director:</strong> {{director}}
+			</p>
+			<p ng-repeat="presenter in recording.presenters">
+				<strong>Presenter:</strong> {{presenter}}
+			</p>
+			<p ng-repeat="actor in recording.actors">
+				<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
+			</p>
+			<p ng-show="recording.categories">
+				<strong>Categories:</strong>
+				<span ng-repeat="category in recording.categories">
+					{{category}}<span ng-hide="$last">, </span>
+				</span>
+			</p>
+
 			<p>
 				<a target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.ts">Raw stream</a>
 				-
