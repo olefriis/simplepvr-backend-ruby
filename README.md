@@ -125,7 +125,6 @@ requests are the only means you have for speeding things up. This includes:
 * XMLTV import:
   * Let SimplePVR itself fetch XMLTV URLs at specified times of day.
   * Set-up of matching XMLTV IDs to channels could make good use of a GUI.
-  * Parse and make use of programme icons etc.
 * Searching for tuners and scanning for channels would be nice through the web GUI.
 * Saving with the hdhomerun_config command is done through a shell script, so we can shut it down properly. I'd
   like a simpler solution, but haven't found anything that works both on OS X and Linux.
@@ -137,16 +136,17 @@ to implement...
 
 * Some kind of live TV.
 * Create metadata for XBMC and Serviio.
-* Duplication detection.
 * Commercial detection.
+* Intelligent planning of recordings, taking duplications etc. into account.
 * Record multiple programmes on same multiplex, so we are not restricted to only recording two
   programmes at once.
+* More complete XMLTV parser.
 
 Development
 ===========
 You need the following installed:
 
-* Ruby 1.9.3 or newer.
+* Ruby 2.0 or newer.
 * [Bundler](http://gembundler.com/).
 * [Karma](http://karma-runner.github.com/0.8/index.html).
 * [PhantomJS](http://phantomjs.org/) - and the phantomjs executable must be on your path.
