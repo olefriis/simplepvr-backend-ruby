@@ -14,6 +14,7 @@ require File.dirname(__FILE__) + '/simple_pvr/ffmpeg'
 require File.dirname(__FILE__) + '/simple_pvr/xmltv_reader'
 
 require File.dirname(__FILE__) + '/simple_pvr/server/base_controller'
+require File.dirname(__FILE__) + '/simple_pvr/server/secured_controller'
 require File.dirname(__FILE__) + '/simple_pvr/server/app_controller'
 require File.dirname(__FILE__) + '/simple_pvr/server/channels_controller'
 require File.dirname(__FILE__) + '/simple_pvr/server/programmes_controller'

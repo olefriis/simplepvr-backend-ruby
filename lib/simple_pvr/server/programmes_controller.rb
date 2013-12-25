@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class ProgrammesController < BaseController
+    class ProgrammesController < SecuredController
       get '/title_search' do
         Model::Programme.titles_containing(params['query']).to_json
       end

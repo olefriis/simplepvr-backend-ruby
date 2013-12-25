@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class ChannelsController < BaseController
+    class ChannelsController < SecuredController
       get '/' do
         Model::Channel.all_with_current_programmes.map do |channel_with_current_programmes|
           channel_with_current_programmes_hash(channel_with_current_programmes)

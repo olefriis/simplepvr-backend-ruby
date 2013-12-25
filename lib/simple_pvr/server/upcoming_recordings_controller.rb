@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class UpcomingRecordingsController < BaseController
+    class UpcomingRecordingsController < SecuredController
       get '/' do
         PvrInitializer.scheduler.upcoming_recordings.map do |recording|
           {

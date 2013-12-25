@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class SchedulesController < BaseController
+    class SchedulesController < SecuredController
       # Must come before the "post '/:id'" below, or it won't get hit :-)
       post '/reload' do
         reload_schedules

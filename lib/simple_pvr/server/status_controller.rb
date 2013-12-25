@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class StatusController < BaseController
+    class StatusController < SecuredController
       get '/' do
         {
           status_text: PvrInitializer.scheduler.status_text

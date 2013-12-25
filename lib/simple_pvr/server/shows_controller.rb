@@ -1,6 +1,6 @@
 module SimplePvr
   module Server
-    class ShowsController < BaseController
+    class ShowsController < SecuredController
       get '/' do
         shows = PvrInitializer.recording_manager.shows
         shows.map do |show|
