@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('simplePvr', ['ngRoute', 'simplePvrServices', 'simplePvrFilters']).
+angular.module('simplePvr', ['ngRoute', 'simplePvrServices', 'simplePvrFilters', 'http-auth-interceptor']).
 directive('titleSearch', function() {
 	return {
 		templateUrl: '/app/templates/titleSearch.html',
@@ -43,7 +43,30 @@ directive('navbarItem', function($location) {
 		}
 	};
 }).
-config(function($routeProvider, $locationProvider) {
+directive('authenticated', function() {
+    return {
+        restrict: 'C',
+        link: function(scope, elem, attrs) {
+            var login = elem.find('#login-holder');
+            //var main = elem.find('#content');
+
+            login.hide();
+
+            scope.$on('event:auth-loginRequired', function() {
+                login.slideDown('slow', function() {
+                    //main.hide();
+                });
+            });
+            scope.$on('event:auth-loginConfirmed', function() {
+                //main.show();
+                login.slideUp();
+            });
+        }
+    }
+}).
+config(function($routeProvider, $locationProvider, $httpProvider) {
+    //$httpProvider.defaults.headers.common.Authorization = 'Basic b2xlOmhlanNhZGEK';
+    
     $locationProvider.html5Mode(true).hashPrefix('');
 
 	$routeProvider.

@@ -1,5 +1,17 @@
 'use strict';
 
+function LoginController($scope, $http, authService) {
+    $scope.submit = function() {
+        var encoded = 'b2xlOmhlanNhZGEK'; //Base64.encode(username + ':' + password);
+        $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+
+        // TODO: We need a service for this, I guess...
+        //$http.post('auth/login').success(function() {
+            authService.loginConfirmed();
+            //});
+    }
+}
+
 function SchedulesCtrl($scope, $http, Schedule, UpcomingRecording, Channel) {
 	var updateView = function() {
 		$scope.schedules = Schedule.query();

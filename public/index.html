@@ -1,30 +1,57 @@
 <!doctype html>
 <html lang="en" ng-app="simplePvr" ng-cloak>
   <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<base href="/">
-	<link href="/app/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/app/css/typeahead.js-bootstrap.css" rel="stylesheet">
-  <link href="/app/css/simplepvr.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <base href="/">
+    <link href="/app/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/css/typeahead.js-bootstrap.css" rel="stylesheet">
+    <link href="/app/css/simplepvr.css" rel="stylesheet">
 
-  <style>
-    body { padding-top: 70px; }
-  </style>
+    <style>
+      body { padding-top: 70px; }
+    </style>
 
-	<script src="app/js/jquery/jquery.min.js"></script>
-  <script src="app/js/angular/angular.min.js"></script>
-  <script src="app/js/angular/angular-route.min.js"></script>
-  <script src="app/js/angular/angular-resource.min.js"></script>
-  <script src="app/js/bootstrap/bootstrap.min.js"></script>
-	<script src="app/js/typeahead/typeahead.min.js"></script>
+    <script src="app/js/jquery/jquery.min.js"></script>
+    <script src="app/js/angular/angular.min.js"></script>
+    <script src="app/js/angular/angular-route.min.js"></script>
+    <script src="app/js/angular/angular-resource.min.js"></script>
+    <script src="app/js/angular/http-auth-interceptor.js"></script>
+    <script src="app/js/bootstrap/bootstrap.min.js"></script>
+    <script src="app/js/typeahead/typeahead.min.js"></script>
 
-	<script src="app/js/controllers.js"></script>
-	<script src="app/js/services.js"></script>
-  <script src="app/js/filters.js"></script>
-	<script src="app/js/app.js"></script>
+    <script src="app/js/controllers.js"></script>
+    <script src="app/js/services.js"></script>
+    <script src="app/js/filters.js"></script>
+    <script src="app/js/app.js"></script>
   </head>
 
-  <body>
+  <body class="authenticated">
+      <div id="login-holder">
+        <div id="loginbox">
+          <div id="login-inner" ng:controller="LoginController">
+            Note: there is no need to enter any credentials.<br>&nbsp;
+            <form ng-submit="submit()">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <th>Username</th>
+                  <td><input type="text" class="login-inp" ng-model="username"/></td>
+                </tr>
+                <tr>
+                  <th>Password</th>
+                  <td><input type="password" class="login-inp" ng-model="password"/></td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td><input type="submit" class="submit-login"/></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+          <div class="clear"></div>
+        </div>
+    </div>
+ 
+      
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
