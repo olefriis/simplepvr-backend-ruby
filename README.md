@@ -53,7 +53,16 @@ URL to the outside world, you'd better supply a username and password:
 
         username=me password=secret pvr_server
 
-This will secure the application with Basic HTTP Authentication.
+This will secure the application with Basic HTTP Authentication. However, everything is sent in clear text. If
+you're worried about your PVR data, you should create an SSL certificate (see
+[https://devcenter.heroku.com/articles/ssl-certificate-self](this description), for example) and supply the key
+and certificate paths when starting the server:
+
+        username=me password=secret key=server.key cert=server.crt pvr_server
+
+You can also supply the `port` variable, in case you want to expose the server on another port than 4567:
+
+        username=me password=secret key=server.key cert=server.crt port=8443 pvr_server
 
 XMLTV
 =====
@@ -75,6 +84,11 @@ done by POST'ing to /api/schedules/reload on the server, e.g.:
 Or, if you've secured your web server with Basic HTTP Authentication like I told you to, specify username and password:
 
         curl -d "" -u me:secret localhost:4567/api/schedules/reload
+
+If you've been really good and enabled HTTPS, you should specify that (here we're also running on port 8443, and
+we've disabled curl's SSL validation, since we're running with a self-signed certificate...):
+
+        curl -d "" -u me:secret --insecure https://localhost:8443/api/schedules/reload
 
 Recordings
 ==========

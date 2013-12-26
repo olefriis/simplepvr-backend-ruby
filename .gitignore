@@ -1,5 +1,6 @@
 .DS_Store
 /channels.txt
+/server.*
 channel_mappings.yaml
 *.sqlite
 tvgrabbed.xmltv

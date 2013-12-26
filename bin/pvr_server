@@ -1,10 +1,18 @@
 #!/usr/bin/env ruby
 
-require 'rack'
+require 'puma/cli'
 require 'simple_pvr'
 
-Rack::Server.start(
-  :config => SimplePvr::PvrInitializer.rackup_file_path,
-  :Port => 4567,
-  :server => 'puma'
-)
+port = ENV['port'] || 4567
+key = ENV['key']
+cert = ENV['cert']
+use_ssl = key && cert
+
+if use_ssl
+  bind_url = "ssl://127.0.0.1:#{port}?key=#{key}&cert=#{cert}"
+else
+  puts 'Consider setting up SSL by specifying key and cert. Please consult the documentation.'
+  bind_url = "tcp://127.0.0.1:#{port}"
+end
+
+Puma::CLI.new([SimplePvr::PvrInitializer.rackup_file_path, '--bind', bind_url]).run
