@@ -2,7 +2,7 @@ module SimplePvr
   class PvrInitializer
     def self.setup
       Model::DatabaseInitializer.setup
-      setup_with_hdhomerun_and_recording_directory(HDHomeRun.new, Dir.pwd + '/recordings')
+      setup_with_hdhomerun_and_recording_directory(HDHomeRunFake.new, Dir.pwd + '/recordings')
       @hdhomerun.scan_for_channels if Model::Channel.all.empty?
     end
     
