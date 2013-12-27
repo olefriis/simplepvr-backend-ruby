@@ -65,7 +65,8 @@ directive('authenticated', function() {
     }
 }).
 config(function($routeProvider, $locationProvider, $httpProvider) {
-    //$httpProvider.defaults.headers.common.Authorization = 'Basic b2xlOmhlanNhZGEK';
+    $httpProvider.defaults.headers.common.Authorization = 'Basic b2xlOmhlanNhZGEK';
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     
     $locationProvider.html5Mode(true).hashPrefix('');
 
