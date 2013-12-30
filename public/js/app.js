@@ -6,21 +6,23 @@ directive('loginDialog', function() {
        templateUrl: '/app/templates/loginDialog.html',
        restrict: 'E',
        replace: true,
-       controller: LoginController,
-       link: function(scope, element, attributes, controller, authService, $cookieStore) {
+       controller: CredentialsController,
+       link: function(scope, element, attributes, controller) {
            scope.$on('event:auth-loginRequired', function() {
                element.modal('show');
+               element.find('#userName').focus();
            });
            scope.$on('event:auth-loginConfirmed', function() {
                element.modal('hide');
+               scope.credentials.password = '';
            });
        }
    } 
 }).
 directive('titleSearch', function($cookieStore) {
-	return {
-		templateUrl: '/app/templates/titleSearch.html',
-		restrict: 'E',
+    return {
+        templateUrl: '/app/templates/titleSearch.html',
+        restrict: 'E',
 		replace: true,
 		controller: SearchProgrammesCtrl,
 		link: function(scope, element, attributes, controller) {

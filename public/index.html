@@ -47,6 +47,7 @@
           <navbar-item route="/channels">Channels</navbar-item>
           <navbar-item route="/shows">Recordings</navbar-item>
           <navbar-item route="/status">Status</navbar-item>
+          <li ng-controller="LoginController" ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log out</a></li>
         </ul>
         <title-search></title-search>
       </div>

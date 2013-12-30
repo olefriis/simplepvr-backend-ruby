@@ -72,6 +72,9 @@
     var $http;
 
     function retryHttpRequest(config, deferred) {
+      // Make room for new 'Authenticate' header value
+      delete config.headers['Authorization'];
+
       function successCallback(response) {
         deferred.resolve(response);
       }

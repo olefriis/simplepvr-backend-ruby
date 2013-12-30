@@ -25,7 +25,7 @@ factory('Recording', function($resource) {
 factory('Status', function($resource) {
 	return $resource('/api/status');
 }).
-service('loginService', function($http, $cookieStore, $timeout, authService) {
+service('loginService', function($http, $cookieStore, authService) {
     // Taken from http://wemadeyoulook.at/en/blog/implementing-basic-http-authentication-http-requests-angular/
     function encodeBase64(input) {
         var keyStr = 'ABCDEFGHIJKLMNOP' +
@@ -77,18 +77,15 @@ service('loginService', function($http, $cookieStore, $timeout, authService) {
             var encodedUserNameAndPassword = encodeBase64(userName + ':' + password);
             $cookieStore.put('basicCredentials', encodedUserNameAndPassword);
             
-            // I'd love to do this more gently, but setting the 'Authorization' header by doing:
-            //
-            //  $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUserNameAndPassword;
-            //
-            // and then afterwards calling:
-            //
-            //  authService.loginConfirmed();
-            //
-            // will just re-issue the old requests with the old 'Authorization' header. Tough luck.
-            // The only working solution that I can find is reloading the whole page, which will work
-            // because the credentials are stored in a cookie:
-            location.reload();
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUserNameAndPassword;
+            authService.loginConfirmed();
+        },
+        isLoggedIn: function() {
+            return $cookieStore.get('basicCredentials') !== undefined;
+        },
+        logOut: function() {
+            $cookieStore.remove('basicCredentials');
+            delete $http.defaults.headers.common['Authorization'];
         }
     }
 });

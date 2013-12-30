@@ -1,10 +1,21 @@
 'use strict';
 
-function LoginController($scope, loginService) {
+function CredentialsController($scope, loginService) {
     $scope.credentials = { userName: '', password: '' };
     
     $scope.submit = function() {
         loginService.setUserNameAndPassword($scope.credentials.userName, $scope.credentials.password);
+    }
+}
+
+function LoginController($scope, $location, loginService) {
+    $scope.isLoggedIn = function() {
+        return loginService.isLoggedIn();
+    }
+    
+    $scope.logOut = function() {
+        loginService.logOut();
+        $location.path('/about');
     }
 }
 
