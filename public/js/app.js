@@ -1,6 +1,22 @@
 'use strict';
 
 angular.module('simplePvr', ['ngRoute', 'simplePvrServices', 'simplePvrFilters', 'http-auth-interceptor']).
+directive('loginDialog', function() {
+   return {
+       templateUrl: '/app/templates/loginDialog.html',
+       restrict: 'E',
+       replace: true,
+       controller: LoginController,
+       link: function(scope, element, attributes, controller) {
+           scope.$on('event:auth-loginRequired', function() {
+               element.modal('show');
+           });
+           scope.$on('event:auth-loginConfirmed', function() {
+               element.modal('hide');
+           });
+       }
+   } 
+}).
 directive('titleSearch', function() {
 	return {
 		templateUrl: '/app/templates/titleSearch.html',
@@ -43,29 +59,7 @@ directive('navbarItem', function($location) {
 		}
 	};
 }).
-directive('authenticated', function() {
-    return {
-        restrict: 'C',
-        link: function(scope, elem, attrs) {
-            var login = elem.find('#login-holder');
-            //var main = elem.find('#content');
-
-            login.hide();
-
-            scope.$on('event:auth-loginRequired', function() {
-                login.slideDown('slow', function() {
-                    //main.hide();
-                });
-            });
-            scope.$on('event:auth-loginConfirmed', function() {
-                //main.show();
-                login.slideUp();
-            });
-        }
-    }
-}).
 config(function($routeProvider, $locationProvider, $httpProvider) {
-    $httpProvider.defaults.headers.common.Authorization = 'Basic b2xlOmhlanNhZGEK';
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     
     $locationProvider.html5Mode(true).hashPrefix('');

@@ -26,7 +26,9 @@ end
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() SimplePvr::Server::SecuredTestController end
+  def app
+    SimplePvr::Server::SecuredTestController
+  end
 end
 
 RSpec.configure { |c| c.include RSpecMixin }
