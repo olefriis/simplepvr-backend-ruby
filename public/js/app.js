@@ -7,7 +7,7 @@ directive('loginDialog', function() {
        restrict: 'E',
        replace: true,
        controller: LoginController,
-       link: function(scope, element, attributes, controller) {
+       link: function(scope, element, attributes, controller, authService, $cookieStore) {
            scope.$on('event:auth-loginRequired', function() {
                element.modal('show');
            });
