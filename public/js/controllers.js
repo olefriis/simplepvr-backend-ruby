@@ -1,6 +1,6 @@
 'use strict';
 
-function LoginController($scope, $http, authService) {
+function LoginController($scope, $http, $cookieStore, authService) {
     // Taken from http://wemadeyoulook.at/en/blog/implementing-basic-http-authentication-http-requests-angular/
     function encodeBase64(input) {
         var keyStr = 'ABCDEFGHIJKLMNOP' +
@@ -44,8 +44,14 @@ function LoginController($scope, $http, authService) {
     
     $scope.credentials = { userName: '', password: '' };
     
+    var basicCredentials = $cookieStore.get('basicCredentials');
+    if (basicCredentials) {
+        $http.defaults.headers.common.Authorization = 'Basic ' + basicCredentials;
+    }
+    
     $scope.submit = function() {
         var encodedUserNameAndPassword = encodeBase64($scope.credentials.userName + ':' + $scope.credentials.password);
+        $cookieStore.put('basicCredentials', encodedUserNameAndPassword);
         $http.defaults.headers.common.Authorization = 'Basic ' + encodedUserNameAndPassword;
 
         // Maybe we should have a REST service for testing the user name and password, but for now

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('simplePvr', ['ngRoute', 'simplePvrServices', 'simplePvrFilters', 'http-auth-interceptor']).
+angular.module('simplePvr', ['ngRoute', 'ngCookies', 'simplePvrServices', 'simplePvrFilters', 'http-auth-interceptor']).
 directive('loginDialog', function() {
    return {
        templateUrl: '/app/templates/loginDialog.html',
@@ -17,7 +17,7 @@ directive('loginDialog', function() {
        }
    } 
 }).
-directive('titleSearch', function() {
+directive('titleSearch', function($cookieStore) {
 	return {
 		templateUrl: '/app/templates/titleSearch.html',
 		restrict: 'E',
@@ -26,7 +26,15 @@ directive('titleSearch', function() {
 		link: function(scope, element, attributes, controller) {
 			var inputField = element.find('input');
 			inputField.typeahead({
-				remote: '/api/programmes/title_search?query=%QUERY'
+				remote: {
+		            url: '/api/programmes/title_search?query=%QUERY',
+                    beforeSend: function(jqXhr, settings) {
+                        var credentials = $cookieStore.get('basicCredentials');
+                        if (credentials) {
+                            jqXhr.setRequestHeader('Authorization', 'Basic ' + credentials);
+                        }
+                    }
+				}
 			});
 			var updateTitle = function() {
 				scope.$apply(function() {
