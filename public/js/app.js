@@ -9,18 +9,16 @@ directive('loginDialog', function($timeout) {
        controller: CredentialsController,
        link: function(scope, element, attributes, controller) {
            var isShowing = false;
-           var isShown = false;
            
            element.on('shown.bs.modal', function(e) {
-               isShowing = false;
-               isShown = true;
                element.find('#userName').focus();
            });
-           
+
            scope.$on('event:auth-loginRequired', function() {
-               if (isShowing || isShown) {
+               if (isShowing) {
                    return;
                }
+               
                // If we're in the process of hiding the modal, we need to wait for
                // all CSS animations to complete before showing the modal again.
                // Otherwise, we might end up with an invisible modal, making the whole
@@ -32,11 +30,11 @@ directive('loginDialog', function($timeout) {
                isShowing = true;
                $timeout(function() {
                    element.modal('show');
+                   isShowing = false;
                }, 1000);
            });
 
            scope.$on('event:auth-loginConfirmed', function() {
-               isShown = false;
                element.modal('hide');
                scope.credentials.password = '';
            });
