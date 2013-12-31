@@ -2,19 +2,20 @@ SimplePVR-Ruby-backend
 ======================
 A really, really simple PVR (Personal Video Recorder) system which only supports the
 [HDHomeRun network tuners](http://www.silicondust.com/). It's written in Ruby and is highly hackable. If
-you don't want to hack it, but just want a solid PVR system, no worries: It's dead-simple to use.
+you don't want to hack it, but just want a solid PVR, no worries: It's dead-simple to use.
 
-SimplePVR does not contain its own player, but currently provides an XBMC plug-in and some half-hearted
-browser playback. Apart from that, all recordings are stored in a simple directory structure (see below
-for an explanation), so that you can just point your favorite player to the recordings.
+SimplePVR does not contain its own player, but currently provides an XBMC plug-in. Apart from that, all
+recordings are stored in a simple directory structure (see below for an explanation), so that you can just
+point your favorite player to the recordings.
 
 Why?
 ====
-MythTV stopped working for me and my HDHomeRun box in the 0.25 release. And even though MythTV has loads
-of merits, I just have no idea what to do when it stops working - I am not in control of my media center.
+MythTV stopped working for me and my HDHomeRun box in the 0.25 release. Even though MythTV has loads
+of merits, I just have no idea what to do when it stops working. I was not in control of my media center.
 
 During the last couple of years, I have spent a substantial amount of time on bugs that suddenly appeared
-in MythTV and suddenly went away. I really don't like using systems this brittle.
+in MythTV and suddenly went away. I really don't like using systems this brittle. My wife got frustrated
+too, which is unfortunate as well...
 
 So I wanted to create a really simple PVR in Ruby, making it possible for others to hack away and have
 fun while recording TV shows for the rest of the family.
@@ -30,13 +31,13 @@ Installation
 First of all, you need a computer and an HDHomeRun tuner box. On your computer, you need to have the
 "hdhomerun_config" tool on the path.
 
-You need Ruby 1.9.2 or newer (1.9.0 or newer is probably enough).
+You need Ruby 2.0.0 or newer. When that's in place, simply run this from the command line:
 
         gem install simple_pvr
 
 It might not always be completely straightforward... simple_pvr uses DataMapper, which in turn relies on
 bcrypt-ruby, which compiles some native stuff. So on MacOS, you need to install XCode and its command-line
-utilities, or get "make" in some other way. On Linux, it should just work. Don't know about Windows.
+utilities, or get "make" in some other way. On Linux, it should just work. There's no Windows support.
 
 If you'd like thumbnails for the recorded shows and ability to transcode recordings to WebM (so you can view
 them directly in your browser), you need FFMPEG on the command-line. Install it using MacPorts, Homebrew,
@@ -96,15 +97,15 @@ The recordings are laid out like this, from the directory where you ran pvr_serv
 
 * recordings/
   * Borgias/
-     * 1/
-     * 2/
+     * 1331214600/
+     * 1333893000/
   * Sports news/
-     * 1/
-     * 2/
-     * 3/
+     * 1331387400/
+     * 1331473800/
+     * 1331560200/
   * ...
 
-Inside the numbered directories are these files:
+The numbers on the directories are simply time stamps. Inside these numbered directories are these files:
 
 * stream.ts: The actual stream. Let VLC or another media player show these for you.
 * hdhomerun_save.log: The output from the actual recording command.
@@ -114,8 +115,9 @@ Inside the numbered directories are these files:
 
 XBMC Plug-In
 ============
-There's a very simple XBMC plug-in for SimplePVR. See [the home page](https://github.com/olefriis/simplepvr)
-for more information.
+There's a simple XBMC plug-in for SimplePVR which enables you to easily watch your recordings, see
+metadata, and delete watched recordings. See
+[the home page](https://github.com/olefriis/simplepvr-frontend-xbmc) for more information.
 
 Future?
 =======
@@ -148,13 +150,16 @@ Some features would be cool to have, but I don't have a personal need for them, 
 happen if *you* implement them and send me a pull request. Besides, some of them I have no clue how
 to implement...
 
-* Some kind of live TV.
-* Create metadata for XBMC and Serviio.
+* A logo!
+* Some kind of live TV through an XBMC PVR plug-in.
+* Plug-ins for other media systems than XBMC.
 * Commercial detection.
-* Intelligent planning of recordings, taking duplications etc. into account.
+* Intelligent planning of recordings, taking into account re-runs etc.
 * Record multiple programmes on same multiplex, so we are not restricted to only recording two
   programmes at once.
 * More complete XMLTV parser.
+* Windows support.
+* Support for other tuners than HDHomeRun.
 
 Development
 ===========
