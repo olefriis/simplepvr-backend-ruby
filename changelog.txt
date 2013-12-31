@@ -1,0 +1,11 @@
+1.1.0
+- Proper log-in dialog, instead of the browser's own HTTP Basic Authentication dialog.
+- Updated to Twitter Bootstrap 3 (and newer versions of other JS libraries).
+- Using CDNs for most of the JavaScript, reducing the size of the gem.
+- Possibility to run server in HTTPS.
+- More extensive use of XMLTV data: categories, actors, directors, images, etc.
+- Recording subdirectories now use timestamps as names instead of a sequence, since XBMC
+  would get a little bit confused with new recordings in old directories.
+
+1.0.0
+- Initial release. Everything is working nicely.

@@ -192,7 +192,8 @@ The specs currently use Poltergeist to drive PhantomJS, but you can let Selenium
 
         capybara_driver=selenium rake test:features
 
-To create the gem, make sure that lib/simple_pvr/version.rb is up-to-date, commit everything and run:
+To create the gem, make sure that lib/simple_pvr/version.rb and changelog.txt are up-to-date, commit
+everything and run:
 
         rake build
 
