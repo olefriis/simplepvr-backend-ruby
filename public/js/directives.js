@@ -45,30 +45,39 @@ directive('titleSearch', function($cookieStore) {
     return {
         templateUrl: '/app/templates/titleSearch.html',
         restrict: 'E',
-		replace: true,
-		controller: SearchProgrammesCtrl,
-		link: function(scope, element, attributes, controller) {
-			var inputField = element.find('input');
-			inputField.typeahead({
-				remote: {
-		            url: '/api/programmes/title_search?query=%QUERY',
+        replace: true,
+        controller: SearchProgrammesCtrl,
+        link: function(scope, element, attributes, controller) {
+            var inputField = element.find('input');
+            inputField.typeahead({
+                remote: {
+                    url: '/api/programmes/title_search?query=%QUERY',
                     beforeSend: function(jqXhr, settings) {
                         var credentials = $cookieStore.get('basicCredentials');
                         if (credentials) {
                             jqXhr.setRequestHeader('Authorization', 'Basic ' + credentials);
                         }
                     }
-				}
-			});
-			var updateTitle = function() {
-				scope.$apply(function() {
-					scope.title = inputField.val();
-				});
-			};
-			inputField.change(updateTitle);
-			inputField.on('typeahead:autocompleted', updateTitle);
-		}
-	};
+                }
+            });
+
+            var updateTitle = function() {
+                scope.$apply(function() {
+                    scope.title = inputField.val();
+                });
+            };
+            var updateTitleAndPerformSearch = function() {
+                scope.$apply(function() {
+                    scope.title = inputField.val();
+                    scope.search();
+                })
+            }
+
+            inputField.change(updateTitle);
+            inputField.on('typeahead:autocompleted', updateTitle);
+            inputField.on('typeahead:selected', updateTitleAndPerformSearch);
+        }
+    };
 }).
 directive('navbarItem', function($location) {
 	return {

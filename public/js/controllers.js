@@ -153,13 +153,6 @@ function ShowCtrl($scope, $routeParams, $http, Show, Recording) {
 }
 
 function SearchProgrammesCtrl($scope, $http, $location) {
-	$scope.updater = function(item) {
-		$scope.$apply(function() {
-			$scope.title = item;
-		});
-		return item;
-	}
-	
 	$scope.search = function() {
 		$location.path('/search').search({query: $scope.title});
 	}
