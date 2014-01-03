@@ -41,6 +41,14 @@ directive('loginDialog', function($timeout) {
        }
    } 
 }).
+directive('logoutLink', function() {
+   return {
+       templateUrl: '/app/templates/logoutLink.html',
+       restrict: 'E',
+       replace: true,
+       controller: LoginController
+   } 
+}).
 directive('titleSearch', function($cookieStore) {
     return {
         templateUrl: '/app/templates/titleSearch.html',
