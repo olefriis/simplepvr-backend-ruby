@@ -91,6 +91,14 @@ module SimplePvr
           last_response.headers['WWW-Authenticate'].should be_nil
         end
         
+        it 'should also allow access with credentials in cookie' do
+          set_cookie "basicCredentials=#{Base64.encode64('me:pass')}"
+          get '/action'
+          last_response.should be_ok
+          last_response.body.should == 'Your response!'
+          last_response.headers['WWW-Authenticate'].should be_nil
+        end
+        
         it 'should give bogus authentication scheme when called from XMLHttpRequest to avoid browser popping up its own log-in dialog' do
           get '/action', {}, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'
           last_response.status.should == 401

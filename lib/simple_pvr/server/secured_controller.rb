@@ -41,15 +41,26 @@ module SimplePvr
       end
 
       def username_and_password_from_request
-        authorization = env['HTTP_AUTHORIZATION']
-        if authorization =~ /Basic ([a-zA-Z0-9\+\/]*[=]{0,2})/
-          username_and_password = Base64.decode64($1)
+        authorization = encoded_credentials_from_http_basic_authentication || encoded_credentials_from_cookie
+        if authorization
+          username_and_password = Base64.decode64(authorization)
           if username_and_password =~ /(.*):(.*)/
             username, password = $1, $2
             return [username, password]
           end
         end
         [nil, nil]
+      end
+      
+      def encoded_credentials_from_http_basic_authentication
+        authorization = env['HTTP_AUTHORIZATION']
+        if authorization =~ /Basic ([a-zA-Z0-9\+\/]*[=]{0,2})/
+          return $1
+        end
+      end
+      
+      def encoded_credentials_from_cookie
+        request.cookies['basicCredentials']
       end
 
       def is_ajax_call

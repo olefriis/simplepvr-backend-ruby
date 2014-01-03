@@ -49,7 +49,7 @@ directive('logoutLink', function() {
        controller: LoginController
    } 
 }).
-directive('titleSearch', function($cookieStore) {
+directive('titleSearch', function(loginService) {
     return {
         templateUrl: '/app/templates/titleSearch.html',
         restrict: 'E',
@@ -58,15 +58,7 @@ directive('titleSearch', function($cookieStore) {
         link: function(scope, element, attributes, controller) {
             var inputField = element.find('input');
             inputField.typeahead({
-                remote: {
-                    url: '/api/programmes/title_search?query=%QUERY',
-                    beforeSend: function(jqXhr, settings) {
-                        var credentials = $cookieStore.get('basicCredentials');
-                        if (credentials) {
-                            jqXhr.setRequestHeader('Authorization', 'Basic ' + credentials);
-                        }
-                    }
-                }
+                remote: '/api/programmes/title_search?query=%QUERY'
             });
 
             var updateTitle = function() {
