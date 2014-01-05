@@ -5,38 +5,34 @@
 </div>
 <div class="row" ng-repeat="recording in recordings | orderBy:'start_time'">
 	<div class="col-md-12 media">
-		<a class="pull-left" ng-if="recording.has_icon">
-			<img class="media-object" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/icon">
-		</a>
-		<div class="media-body">
-			<h1 class="media-heading">{{recording.episode}}</h1>
-			<img ng-if="recording.has_thumbnail" class="thumbnail" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/thumbnail.png">
-			<p>{{recording.subtitle}}</p>
-			<p>{{recording.start_time | date:'fullDate'}} at {{recording.start_time | date:'HH:mm'}} from channel {{recording.channel_name}}.</p>
-			<p>{{recording.description}}</p>
-			<p ng-repeat="director in recording.directors">
-				<strong>Director:</strong> {{director}}
-			</p>
-			<p ng-repeat="presenter in recording.presenters">
-				<strong>Presenter:</strong> {{presenter}}
-			</p>
-			<p ng-repeat="actor in recording.actors">
-				<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
-			</p>
-			<p ng-show="recording.categories">
-				<strong>Categories:</strong>
-				<span ng-repeat="category in recording.categories">
-					{{category}}<span ng-hide="$last">, </span>
-				</span>
-			</p>
+		<img class="media-object pull-left" ng-if="recording.has_icon" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/icon">
+		<h1 class="media-heading">{{recording.episode}}</h1>
+		<img ng-if="recording.has_thumbnail" class="thumbnail" ng-src="/api/shows/{{show.name}}/recordings/{{recording.id}}/thumbnail.png">
+		<p>{{recording.subtitle}}</p>
+		<p>{{recording.start_time | date:'fullDate'}} at {{recording.start_time | date:'HH:mm'}} from channel {{recording.channel_name}}.</p>
+		<p>{{recording.description}}</p>
+		<p ng-repeat="director in recording.directors">
+			<strong>Director:</strong> {{director}}
+		</p>
+		<p ng-repeat="presenter in recording.presenters">
+			<strong>Presenter:</strong> {{presenter}}
+		</p>
+		<p ng-repeat="actor in recording.actors">
+			<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
+		</p>
+		<p ng-show="recording.categories">
+			<strong>Categories:</strong>
+			<span ng-repeat="category in recording.categories">
+				{{category}}<span ng-hide="$last">, </span>
+			</span>
+		</p>
 
-			<p>
-				<a target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.ts">Raw stream</a>
-				-
-				<a ng-show="recording.has_webm" target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.webm">View in browser (Firefox/Chrome)</a>
-				<button ng-hide="recording.has_webm" class="btn btn-default" type="button" ng-click="startTranscoding(recording)">Prepare for playing in Firefox/Chrome</button>
-			</p>
-			<p><button class="btn btn-warning" type="button" ng-click="deleteRecording(recording)">Delete recording</button></p>
-		</div>
+		<p>
+			<a target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.ts">Raw stream</a>
+			-
+			<a ng-show="recording.has_webm" target="_self" ng-href="/api/shows/{{show.name}}/recordings/{{recording.id}}/stream.webm">View in browser (Firefox/Chrome)</a>
+			<button ng-hide="recording.has_webm" class="btn btn-default" type="button" ng-click="startTranscoding(recording)">Prepare for playing in Firefox/Chrome</button>
+		</p>
+		<p><button class="btn btn-warning" type="button" ng-click="deleteRecording(recording)">Delete recording</button></p>
 	</div>
 </div>

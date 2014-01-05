@@ -1,42 +1,36 @@
 <div class="col-md-12">
-	<div class="row" ng-show="programme.id">
-		<div class="media">
-			<a class="pull-left" ng-show="programme.icon_url">
-			    <img class="media-object" ng-src="{{programme.icon_url}}">
-			</a>
-			<div class="media-body">
-				<h1 class="media-heading">{{programme.title}}</h1>
-				<p>{{programme.subtitle}}</p>
-				<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
-				<p>{{programme.description}}</p>
-				<p ng-repeat="director in programme.directors">
-					<strong>Director:</strong> {{director}}
-				</p>
-				<p ng-repeat="presenter in programme.presenters">
-					<strong>Presenter:</strong> {{presenter}}
-				</p>
-				<p ng-repeat="actor in programme.actors">
-					<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
-				</p>
-				<p ng-show="programme.categories">
-					<strong>Categories:</strong>
-					<span ng-repeat="category in programme.categories">
-						{{category}}<span ng-hide="$last">, </span>
-					</span>
-				</p>
-		
-		        <div ng-show="programme.episode_num">Episode {{programme.episode_num | formatEpisode}}</div>
-				<div ng-show="programme.is_scheduled">
-					<p>This programme is being recorded.</p>
-				</div>
-				<div ng-hide="programme.is_scheduled">
-					<p>
-						<button class="btn btn-primary" type="button" ng-click="recordOnThisChannel()">Record on this channel</button>
-						<button class="btn btn-primary" type="button" ng-click="recordOnAnyChannel()">Record on any channel</button>
-						<button ng-hide="programme.is_outdated" class="btn btn-primary" type="button" ng-click="recordJustThisProgramme()">Record just this programme</button>
-					</p>
-				</div>
-			</div>
+	<div class="row media" ng-show="programme.id">
+	    <img class="media-object pull-left" ng-if="programme.icon_url" ng-src="{{programme.icon_url}}">
+		<h1 class="media-heading">{{programme.title}}</h1>
+		<p>{{programme.subtitle}}</p>
+		<p>{{programme.start_time | date:'fullDate'}} at {{programme.start_time | date:'HH:mm'}} on channel {{programme.channel.name}}.</p>
+		<p>{{programme.description}}</p>
+		<p ng-repeat="director in programme.directors">
+			<strong>Director:</strong> {{director}}
+		</p>
+		<p ng-repeat="presenter in programme.presenters">
+			<strong>Presenter:</strong> {{presenter}}
+		</p>
+		<p ng-repeat="actor in programme.actors">
+			<strong ng-show="actor.role_name">{{actor.role_name}}:</strong> {{actor.actor_name}}
+		</p>
+		<p ng-show="programme.categories">
+			<strong>Categories:</strong>
+			<span ng-repeat="category in programme.categories">
+				{{category}}<span ng-hide="$last">, </span>
+			</span>
+		</p>
+
+        <div ng-show="programme.episode_num">Episode {{programme.episode_num | formatEpisode}}</div>
+		<div ng-show="programme.is_scheduled">
+			<p>This programme is being recorded.</p>
+		</div>
+		<div ng-hide="programme.is_scheduled">
+			<p>
+				<button class="btn btn-primary" type="button" ng-click="recordOnThisChannel()">Record on this channel</button>
+				<button class="btn btn-primary" type="button" ng-click="recordOnAnyChannel()">Record on any channel</button>
+				<button ng-hide="programme.is_outdated" class="btn btn-primary" type="button" ng-click="recordJustThisProgramme()">Record just this programme</button>
+			</p>
 		</div>
 	</div>
 </div>
