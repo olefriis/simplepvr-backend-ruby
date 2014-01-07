@@ -1,3 +1,3 @@
 module SimplePvr
-  VERSION = "1.1.0-PRE2"
+  VERSION = "1.1.0-PRE3"
 end
