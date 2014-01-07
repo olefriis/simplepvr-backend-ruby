@@ -4,7 +4,9 @@ module SimplePvr
     
     def initialize
       @number_of_tuners = 2
-      @upcoming_recordings, @current_recordings, @recorders = [], [nil] * @number_of_tuners, {}
+      @current_recordings = [nil] * @number_of_tuners
+      @recorders = {}
+      @upcoming_recordings = []
       @mutex = Mutex.new
     end
 
@@ -16,7 +18,7 @@ module SimplePvr
         end
       end
     end
-    
+
     def recordings=(recordings)
       @mutex.synchronize do
         @upcoming_recordings = recordings.sort_by {|r| r.start_time }.find_all {|r| !r.expired? }
@@ -82,8 +84,14 @@ module SimplePvr
     end
     
     def stop_current_recordings_not_relevant_anymore
-      @current_recordings.each do |recording|
-        stop_recording(recording) if recording && !@upcoming_recordings.include?(recording)
+      @current_recordings.find_all {|r| r != nil }.each do |recording|
+        similar_recording = @upcoming_recordings.find {|r| recording.similar_to(r) }
+        if similar_recording
+          # It's (probably) the same show, so we continue recording and update with new information
+          similar_recording.update_with(recording)
+        else
+          stop_recording(recording)
+        end
       end
     end
     

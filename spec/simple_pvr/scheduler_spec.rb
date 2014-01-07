@@ -163,6 +163,21 @@ module SimplePvr
         @scheduler.process
       end
       
+      it 'replaces underlying information for running recording if new recording has same name, channel, and start time' do
+        old_programme, new_programme = Model::Programme.new, Model::Programme.new
+        start_time = Time.local(2012, 7, 15, 20, 15, 30)
+        continuing_recording = Model::Recording.new(@channel, 'Borgia', start_time, 60.minutes, old_programme)
+        Time.stub(:now => start_time)
+        Recorder.should_receive(:new).with(0, continuing_recording).and_return(@recorder = double('Recorder 1'))
+        @recorder.should_receive(:start!)
+  
+        @scheduler.recordings = [continuing_recording]
+        @scheduler.process
+  
+        @scheduler.recordings = [Model::Recording.new(@channel, 'Borgia', start_time, 55.minutes, new_programme)]
+        @scheduler.process
+      end
+      
       it 'stops existing recording if not present in new recording list' do
         start_time = Time.local(2012, 7, 15, 20, 15, 30)
         stopping_recording = Model::Recording.new(@channel, 'Borgia', start_time, 60.minutes)

@@ -26,6 +26,18 @@ module SimplePvr
       def inspect
         "'#{@show_name}' from '#{@channel.name}' at '#{@start_time}' with duration #{@duration} and programme #{@programme}"
       end
+      
+      def similar_to(other)
+        other != nil &&
+        other.channel == @channel &&
+        other.show_name == @show_name &&
+        other.start_time == @start_time
+      end
+      
+      def update_with(other)
+        @duration = other.duration
+        @programme = other.programme
+      end
 
       def ==(other)
         other != nil &&
