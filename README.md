@@ -8,6 +8,8 @@ SimplePVR does not contain its own player, but currently provides an XBMC plug-i
 recordings are stored in a simple directory structure (see below for an explanation), so that you can just
 point your favorite player to the recordings.
 
+Wanna see what it looks like? [Take a look at the Wiki.](https://github.com/olefriis/simplepvr-backend-ruby/wiki)
+
 Why?
 ====
 MythTV stopped working for me and my HDHomeRun box in the 0.25 release. Even though MythTV has loads
