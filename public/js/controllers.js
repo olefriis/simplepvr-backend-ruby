@@ -69,7 +69,7 @@ function ChannelsCtrl($scope, $http, Channel) {
 		if (programme == null) {
 			return '';
 		}
-		return programme.is_conflicting ? 'error' : (programme.is_scheduled ? 'success' : '');
+		return programme.is_conflicting ? 'danger' : (programme.is_scheduled ? 'success' : '');
 	}
 	$scope.hideChannel = function(channel) {
 		// I wish Angular could let me define this operation on the Channel object
@@ -90,7 +90,7 @@ function ProgrammeListingCtrl($scope, $routeParams, ProgrammeListing) {
 	$scope.programmeListing = ProgrammeListing.get({channelId: $scope.channelId, date: $scope.date});
 	
 	$scope.classForProgrammeLine = function(programme) {
-		return programme.is_conflicting ? 'error' : (programme.is_scheduled ? 'success' : '');
+		return programme.is_conflicting ? 'danger' : (programme.is_scheduled ? 'success' : '');
 	}
 }
 
