@@ -18,14 +18,12 @@ module SimplePvr
       specifications.each do |specification|
         programmes = programmes_matching(specification)
 
-        adjust_end_time_of_specification(specification, programmes)
-        adjust_end_time_of_exceptions(specification, programmes, exceptions)
+        # End time is used for cleaning up single-programme schedules and exceptions, so it's
+        # important to get those right
+        adjust_end_times(specification, programmes, exceptions)
 
-        programmes_with_exceptions_removed = programmes.find_all {|programme| !matches_exception(programme, exceptions) }
-        programmes_filtered_by_weekdays = programmes_with_exceptions_removed.find_all {|programme| on_allowed_weekday(programme, specification) }
-        programmes_filtered_by_time_of_day = programmes_filtered_by_weekdays.find_all {|programme| at_allowed_time_of_day(programme, specification) }
-
-        add_programmes(specification, programmes_filtered_by_time_of_day)
+        filtered_programmes = filtered_programmes(specification, programmes, exceptions)
+        add_programmes(specification, filtered_programmes)
       end
 
       PvrInitializer.scheduler.recordings = @recordings
@@ -40,6 +38,19 @@ module SimplePvr
         else
           Model::Programme.with_title(specification.title)
         end
+    end
+    
+    def adjust_end_times(specification, programmes, exceptions)
+      adjust_end_time_of_specification(specification, programmes)
+      adjust_end_time_of_exceptions(specification, programmes, exceptions)
+    end
+    
+    def filtered_programmes(specification, programmes, exceptions)
+      programmes_with_exceptions_removed = programmes.find_all {|programme| !matches_exception(programme, exceptions) }
+      programmes_filtered_by_weekdays = programmes_with_exceptions_removed.find_all {|programme| on_allowed_weekday(programme, specification) }
+      programmes_filtered_by_time_of_day = programmes_filtered_by_weekdays.find_all {|programme| at_allowed_time_of_day(programme, specification) }
+
+      programmes_filtered_by_time_of_day
     end
 
     def adjust_end_time_of_specification(specification, programmes)

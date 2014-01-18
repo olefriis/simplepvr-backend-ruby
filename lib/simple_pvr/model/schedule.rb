@@ -33,6 +33,7 @@ module SimplePvr
       # If specified (and channel is specified too), this schedule is for a specific
       # programme at a specific channel at a specific time
       property :start_time, DateTime
+      # End time is used for cleaning up single-programme schedules and exceptions
       property :end_time, DateTime
 
       property :custom_start_early_minutes, Integer

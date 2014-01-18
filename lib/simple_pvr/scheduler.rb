@@ -21,22 +21,22 @@ module SimplePvr
 
     def recordings=(recordings)
       @mutex.synchronize do
-        @upcoming_recordings = recordings.sort_by {|r| r.start_time }.find_all {|r| !r.expired? }
+        @upcoming_recordings = recordings.reject {|r| r.expired? }.sort_by {|r| r.start_time }
 
-        @scheduled_programmes = programme_ids_from(@upcoming_recordings)
+        @scheduled_programme_ids = programme_ids_from(@upcoming_recordings)
         stop_current_recordings_not_relevant_anymore
         @upcoming_recordings = remove_current_recordings(@upcoming_recordings)
         mark_conflicting_recordings(@upcoming_recordings)
-        @conflicting_programmes = programme_ids_from(@upcoming_recordings.find_all {|r| r.conflicting? })
+        @conflicting_programme_ids = programme_ids_from(@upcoming_recordings.find_all {|r| r.conflicting? })
       end
     end
     
     def scheduled?(programme)
-      @scheduled_programmes[programme.id] != nil
+      @scheduled_programme_ids[programme.id] != nil
     end
     
     def conflicting?(programme)
-      @conflicting_programmes[programme.id] != nil
+      @conflicting_programme_ids[programme.id] != nil
     end
     
     def status_text
@@ -49,8 +49,8 @@ module SimplePvr
     end
 
     def process
-      check_expiration_of_current_recordings
-      check_start_of_coming_recordings
+      stop_expired_recordings
+      start_new_recordings
     end
     
     private
@@ -95,13 +95,13 @@ module SimplePvr
       end
     end
     
-    def check_expiration_of_current_recordings
+    def stop_expired_recordings
       @current_recordings.each do |recording|
         stop_recording(recording) if recording && recording.expired?
       end
     end
     
-    def check_start_of_coming_recordings
+    def start_new_recordings
       while should_start_next_recording
         start_next_recording
       end
