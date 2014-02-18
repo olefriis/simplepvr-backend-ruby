@@ -53,6 +53,48 @@ filter('timeOfDay', function() {
 		}
 	}
 }).
+filter('diskSize', function() {
+    function sizeAsString(size, singular, plural) {
+        if (size == 1) {
+            return '1 ' + singular;
+        }
+        return size + ' ' + plural;
+    }
+    
+    return function(size) {
+        var kilobyte = 1024;
+        var megabyte = 1024*1024;
+        var gigabyte = 1024*1024*1024;
+        var terabyte = 1024*1024*1024*1024;
+
+        var sizes = [];
+        if (size >= terabyte) {
+            var sizeInTerabytes = Math.floor(size / terabyte);
+            sizes.push(sizeAsString(sizeInTerabytes, 'terabyte', 'terabytes'));
+            size -= sizeInTerabytes * terabyte;
+        }
+        if (size >= gigabyte) {
+            var sizeInGigabytes = Math.floor(size / gigabyte);
+            sizes.push(sizeAsString(sizeInGigabytes, 'gigabyte', 'gigabytes'));
+            size -= sizeInGigabytes * gigabyte;
+        }
+        if (size >= megabyte) {
+            var sizeInMegabytes = Math.floor(size / megabyte);
+            sizes.push(sizeAsString(sizeInMegabytes, 'megabyte', 'megabytes'));
+            size -= sizeInMegabytes * megabyte;
+        }
+        if (size >= kilobyte) {
+            var sizeInKilobytes = Math.floor(size / kilobyte);
+            sizes.push(sizeAsString(sizeInKilobytes, 'kilobyte', 'kilobytes'));
+            size -= sizeInKilobytes * kilobyte;
+        }
+        if (size > 0 || sizes.length == 0) {
+            sizes.push(sizeAsString(size, 'byte', 'bytes'));
+        }
+        
+        return sizes.join(', ');
+    }
+}).
 filter('startEarlyEndLate', function() {
 	return function(schedule) {
 		var sentences = [];
