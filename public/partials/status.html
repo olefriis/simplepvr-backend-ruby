@@ -2,5 +2,7 @@
 	<div class="col-md-12">
 		<h1>Current status</h2>
 		<p>{{status.status_text}}</p>
+        <p>Total disk space: {{status.total_disk_space | diskSpace}}</p>
+        <p>Free disk space: {{status.free_disk_space | diskSpace}}</p>
 	</div>
 </div>

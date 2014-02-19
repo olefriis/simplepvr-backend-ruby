@@ -53,7 +53,7 @@ filter('timeOfDay', function() {
 		}
 	}
 }).
-filter('diskSize', function() {
+filter('diskSpace', function() {
     function sizeAsString(size, singular, plural) {
         if (size == 1) {
             return '1 ' + singular;

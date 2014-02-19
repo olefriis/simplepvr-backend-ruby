@@ -103,55 +103,55 @@ describe('filters', function() {
 		}));
 	});
     
-    describe('diskSizeFilter', function() {
+    describe('diskSpaceFilter', function() {
         var kb = 1024;
         var mb = 1024*1024;
         var gb = 1024*1024*1024;
         var tb = 1024*1024*1024*1024;
         
-        it('should handle space below one kilobyte', inject(function(diskSizeFilter) {
-            expect(diskSizeFilter(0)).toEqual('0 bytes');
-            expect(diskSizeFilter(1)).toEqual('1 byte');
-            expect(diskSizeFilter(2)).toEqual('2 bytes');
-            expect(diskSizeFilter(100)).toEqual('100 bytes');
-            expect(diskSizeFilter(1023)).toEqual('1023 bytes');
+        it('should handle space below one kilobyte', inject(function(diskSpaceFilter) {
+            expect(diskSpaceFilter(0)).toEqual('0 bytes');
+            expect(diskSpaceFilter(1)).toEqual('1 byte');
+            expect(diskSpaceFilter(2)).toEqual('2 bytes');
+            expect(diskSpaceFilter(100)).toEqual('100 bytes');
+            expect(diskSpaceFilter(1023)).toEqual('1023 bytes');
         }));
         
-        it('should handle space between one kilobyte and one megabyte', inject(function(diskSizeFilter) {
-            expect(diskSizeFilter(1*kb)).toEqual('1 kilobyte');
-            expect(diskSizeFilter(1*kb + 1)).toEqual('1 kilobyte, 1 byte');
-            expect(diskSizeFilter(2*kb)).toEqual('2 kilobytes');
-            expect(diskSizeFilter(2*kb + 52)).toEqual('2 kilobytes, 52 bytes');
-            expect(diskSizeFilter(1023*kb + 1023)).toEqual('1023 kilobytes, 1023 bytes');
+        it('should handle space between one kilobyte and one megabyte', inject(function(diskSpaceFilter) {
+            expect(diskSpaceFilter(1*kb)).toEqual('1 kilobyte');
+            expect(diskSpaceFilter(1*kb + 1)).toEqual('1 kilobyte, 1 byte');
+            expect(diskSpaceFilter(2*kb)).toEqual('2 kilobytes');
+            expect(diskSpaceFilter(2*kb + 52)).toEqual('2 kilobytes, 52 bytes');
+            expect(diskSpaceFilter(1023*kb + 1023)).toEqual('1023 kilobytes, 1023 bytes');
         }));
         
-        it('should handle space between one megabyte and one gigabyte', inject(function(diskSizeFilter) {
-            expect(diskSizeFilter(1*mb)).toEqual('1 megabyte');
-            expect(diskSizeFilter(1*mb + 1*kb + 1)).toEqual('1 megabyte, 1 kilobyte, 1 byte');
-            expect(diskSizeFilter(2*mb)).toEqual('2 megabytes');
-            expect(diskSizeFilter(2*mb + 52*kb + 53)).toEqual('2 megabytes, 52 kilobytes, 53 bytes');
-            expect(diskSizeFilter(1023*mb + 1023)).toEqual('1023 megabytes, 1023 bytes');
-            expect(diskSizeFilter(1023*mb + 1023*kb + 1023)).toEqual('1023 megabytes, 1023 kilobytes, 1023 bytes');
+        it('should handle space between one megabyte and one gigabyte', inject(function(diskSpaceFilter) {
+            expect(diskSpaceFilter(1*mb)).toEqual('1 megabyte');
+            expect(diskSpaceFilter(1*mb + 1*kb + 1)).toEqual('1 megabyte, 1 kilobyte, 1 byte');
+            expect(diskSpaceFilter(2*mb)).toEqual('2 megabytes');
+            expect(diskSpaceFilter(2*mb + 52*kb + 53)).toEqual('2 megabytes, 52 kilobytes, 53 bytes');
+            expect(diskSpaceFilter(1023*mb + 1023)).toEqual('1023 megabytes, 1023 bytes');
+            expect(diskSpaceFilter(1023*mb + 1023*kb + 1023)).toEqual('1023 megabytes, 1023 kilobytes, 1023 bytes');
         }));
         
-        it('should handle space between one gigabyte and one terabyte', inject(function(diskSizeFilter) {
-            expect(diskSizeFilter(1*gb)).toEqual('1 gigabyte');
-            expect(diskSizeFilter(1*gb + 1*mb + 1*kb + 1)).toEqual('1 gigabyte, 1 megabyte, 1 kilobyte, 1 byte');
-            expect(diskSizeFilter(2*gb)).toEqual('2 gigabytes');
-            expect(diskSizeFilter(2*gb + 51*mb + 52*kb + 53)).toEqual('2 gigabytes, 51 megabytes, 52 kilobytes, 53 bytes');
-            expect(diskSizeFilter(1023*gb + 1023)).toEqual('1023 gigabytes, 1023 bytes');
-            expect(diskSizeFilter(1023*gb + 1023*mb + 1023*kb + 1023)).toEqual('1023 gigabytes, 1023 megabytes, 1023 kilobytes, 1023 bytes');
+        it('should handle space between one gigabyte and one terabyte', inject(function(diskSpaceFilter) {
+            expect(diskSpaceFilter(1*gb)).toEqual('1 gigabyte');
+            expect(diskSpaceFilter(1*gb + 1*mb + 1*kb + 1)).toEqual('1 gigabyte, 1 megabyte, 1 kilobyte, 1 byte');
+            expect(diskSpaceFilter(2*gb)).toEqual('2 gigabytes');
+            expect(diskSpaceFilter(2*gb + 51*mb + 52*kb + 53)).toEqual('2 gigabytes, 51 megabytes, 52 kilobytes, 53 bytes');
+            expect(diskSpaceFilter(1023*gb + 1023)).toEqual('1023 gigabytes, 1023 bytes');
+            expect(diskSpaceFilter(1023*gb + 1023*mb + 1023*kb + 1023)).toEqual('1023 gigabytes, 1023 megabytes, 1023 kilobytes, 1023 bytes');
         }));
         
-        it('does not need to handle bigger sizes than terabytes', inject(function(diskSizeFilter) {
-            expect(diskSizeFilter(1*tb)).toEqual('1 terabyte');
-            expect(diskSizeFilter(1*tb + 1*gb + 1*mb + 1*kb + 1)).toEqual('1 terabyte, 1 gigabyte, 1 megabyte, 1 kilobyte, 1 byte');
-            expect(diskSizeFilter(2*tb)).toEqual('2 terabytes');
-            expect(diskSizeFilter(2*tb + 50*gb + 51*mb + 52*kb + 53)).toEqual('2 terabytes, 50 gigabytes, 51 megabytes, 52 kilobytes, 53 bytes');
-            expect(diskSizeFilter(1023*tb + 1023)).toEqual('1023 terabytes, 1023 bytes');
-            expect(diskSizeFilter(1023*tb + 1023*gb + 1023*mb + 1023*kb + 1023)).toEqual('1023 terabytes, 1023 gigabytes, 1023 megabytes, 1023 kilobytes, 1023 bytes');
+        it('does not need to handle bigger sizes than terabytes', inject(function(diskSpaceFilter) {
+            expect(diskSpaceFilter(1*tb)).toEqual('1 terabyte');
+            expect(diskSpaceFilter(1*tb + 1*gb + 1*mb + 1*kb + 1)).toEqual('1 terabyte, 1 gigabyte, 1 megabyte, 1 kilobyte, 1 byte');
+            expect(diskSpaceFilter(2*tb)).toEqual('2 terabytes');
+            expect(diskSpaceFilter(2*tb + 50*gb + 51*mb + 52*kb + 53)).toEqual('2 terabytes, 50 gigabytes, 51 megabytes, 52 kilobytes, 53 bytes');
+            expect(diskSpaceFilter(1023*tb + 1023)).toEqual('1023 terabytes, 1023 bytes');
+            expect(diskSpaceFilter(1023*tb + 1023*gb + 1023*mb + 1023*kb + 1023)).toEqual('1023 terabytes, 1023 gigabytes, 1023 megabytes, 1023 kilobytes, 1023 bytes');
 
-            expect(diskSizeFilter(1024*tb)).toEqual('1024 terabytes');
+            expect(diskSpaceFilter(1024*tb)).toEqual('1024 terabytes');
         }));
     });
 });
