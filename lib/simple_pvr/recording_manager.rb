@@ -1,5 +1,5 @@
 module SimplePvr
-  RecordingMetadata = Struct.new(:id, :has_icon, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :categories, :directors, :presenters, :actors, :start_time, :duration)
+  RecordingMetadata = Struct.new(:id, :status, :status_text, :has_icon, :has_thumbnail, :has_webm, :show_name, :channel, :subtitle, :description, :categories, :directors, :presenters, :actors, :start_time, :duration)
   
   class RecordingManager
     def initialize(recordings_directory)
@@ -22,20 +22,26 @@ module SimplePvr
     end
     
     def metadata_for(show_name, recording_id)
-      metadata_file_name = directory_for_show_and_recording(show_name, recording_id) + '/metadata.yml'
+      recording_directory = directory_for_show_and_recording(show_name, recording_id)
+      
+      metadata_file_name = recording_directory + '/metadata.yml'
       metadata = File.exists?(metadata_file_name) ? YAML.load_file(metadata_file_name) : {}
 
-      icon_file_name = directory_for_show_and_recording(show_name, recording_id) + '/icon'
+      icon_file_name = recording_directory + '/icon'
       has_icon = File.exists?(icon_file_name)
 
-      thumbnail_file_name = directory_for_show_and_recording(show_name, recording_id) + '/thumbnail.png'
+      thumbnail_file_name = recording_directory + '/thumbnail.png'
       has_thumbnail = File.exists?(thumbnail_file_name)
 
-      webm_file_name = directory_for_show_and_recording(show_name, recording_id) + '/stream.webm'
+      webm_file_name = recording_directory + '/stream.webm'
       has_webm = File.exists?(webm_file_name)
+
+      status, status_text = status_and_status_text_for_hdhomerun_save_log(recording_directory)
 
       RecordingMetadata.new(
         recording_id,
+        status,
+        status_text,
         has_icon,
         has_thumbnail,
         has_webm,
@@ -93,6 +99,37 @@ module SimplePvr
         sequence_number += 1
       end
       "#{start_time_millis}-#{sequence_number}"
+    end
+    
+    def status_and_status_text_for_hdhomerun_save_log(directory)
+      log_file_name = directory + '/hdhomerun_save.log'
+      if !File.exists?(log_file_name)
+        return ['error', 'No log file exists - maybe this is not a SimplePVR recording?']
+      end
+      
+      log_file = IO.readlines(log_file_name)
+      if log_file.length != 3 || !(log_file[2] =~ /^(\d+) packets received, (\d+) overflow errors, (\d+) network errors, (\d+) transport errors, (\d+) sequence errors$/)
+        return ['error', 'Invalid log file format']
+      end
+      
+      packets_received, overflow_errors, network_errors, transport_errors, sequence_errors = $1.to_i, $2.to_i, $3.to_i, $4.to_i, $5.to_i
+
+      errors = []
+      errors << "#{overflow_errors} overflow errors" if overflow_errors > 0
+      errors << "#{network_errors} network errors" if network_errors > 0
+      errors << "#{transport_errors} transport errors" if transport_errors > 0
+      errors << "#{sequence_errors} sequence errors" if sequence_errors > 0
+      error_text = errors.join("\n")
+
+      if packets_received == 0
+        return ['error', 'Empty recording']
+      elsif !log_file[0].include?('.')
+        ['error', "Failed recording.\n#{error_text}"]
+      elsif !errors.empty?
+        ['warning', "Some errors during recording.\n#{error_text}"]
+      else
+        ['success', '']
+      end
     end
     
     def create_metadata(directory, recording)

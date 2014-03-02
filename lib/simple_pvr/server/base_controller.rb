@@ -49,6 +49,8 @@ module SimplePvr
           categories: recording.categories,
           start_time: recording.start_time,
           channel_name: recording.channel,
+          status: recording.status,
+          status_text: recording.status_text,
           has_icon: recording.has_icon,
           has_thumbnail: recording.has_thumbnail,
           has_webm: recording.has_webm,
